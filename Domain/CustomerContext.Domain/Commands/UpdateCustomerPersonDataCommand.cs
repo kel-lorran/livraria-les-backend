@@ -35,6 +35,7 @@ namespace Domain.CustomerContext
             {
                 var value = prop.GetValue(this);
                 if(value != null)
+                    System.Console.WriteLine(prop.Name);
                     prop.SetValue(customer, value);
             }
             return customer;

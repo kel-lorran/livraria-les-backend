@@ -20,6 +20,13 @@ namespace Infra
             return customer;
         }
 
+        public Customer UpdateCustomer(Customer customer)
+        {
+            _context.Entry<Customer>(customer).State = EntityState.Modified;
+            _context.SaveChanges();
+            return customer;
+        }
+
         public Customer GetByEmail(string email)
         {
             return _context.Customers

@@ -3,7 +3,9 @@ using Shared;
 
 namespace Domain.CustomerContext
 {
-    public class CustomerHandler : IHandler<CreateCustomerCommand>
+    public class CustomerHandler : 
+        IHandler<CreateCustomerCommand>,
+        IHandler<UpdateCustomerPersonDataCommand>
     {
         private readonly ICustomerRepository _repository;
 
@@ -42,6 +44,14 @@ namespace Domain.CustomerContext
 
             _repository.CreateCustomer(customer);
             return new GenericCommandResult(true, "Sucesso no registro do cliente", customer);
+        }
+
+        public ICommandResult Handle(UpdateCustomerPersonDataCommand command)
+        {
+            var customer = _repository.GetByEmail(command.Email);
+            command.MergeEntity(customer);
+            _repository.UpdateCustomer(customer);
+            return new GenericCommandResult(true, "Sucesso na atualização do registro do cliente", customer);
         }
     }
 }
