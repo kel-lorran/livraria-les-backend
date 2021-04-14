@@ -40,7 +40,7 @@ namespace Domain.CustomerContext
                 new List<Address>{address}
             );
 
-            _repository.createCustomer(customer);
+            _repository.CreateCustomer(customer);
             return new GenericCommandResult(true, "Sucesso no registro do cliente", customer);
         }
     }

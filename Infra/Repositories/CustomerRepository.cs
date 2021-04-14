@@ -1,4 +1,6 @@
+using System.Linq;
 using Domain.CustomerContext;
+using Microsoft.EntityFrameworkCore;
 
 namespace Infra
 {
@@ -11,11 +13,19 @@ namespace Infra
             _context = context;
         }
 
-        public Customer createCustomer(Customer customer)
+        public Customer CreateCustomer(Customer customer)
         {
             _context.Customers.Add(customer);
             _context.SaveChanges();
             return customer;
+        }
+
+        public Customer GetByEmail(string email)
+        {
+            return _context.Customers
+                .AsNoTracking()
+                .Include(c => c.AddressList)
+                .FirstOrDefault(CustomerQueries.GetByEmail(email));
         }
     }
 }

@@ -2,6 +2,7 @@ namespace Domain.CustomerContext
 {
     public interface ICustomerRepository
     {
-        Customer createCustomer(Customer customer);
+        Customer CreateCustomer(Customer customer);
+        Customer GetByEmail(string email);
     }
 }
