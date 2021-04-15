@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Linq;
 using Domain.CustomerContext;
 using Microsoft.EntityFrameworkCore;
@@ -32,7 +33,39 @@ namespace Infra
             return _context.Customers
                 .AsNoTracking()
                 .Include(c => c.AddressList)
+                .Include(c => c.CreditCardList)
                 .FirstOrDefault(CustomerQueries.GetByEmail(email));
+        }
+
+        public Customer GetById(int id)
+        {
+            return _context.Customers
+                .Include(c => c.AddressList)
+                .Include(c => c.CreditCardList)
+                .FirstOrDefault(CustomerQueries.GetById(id));
+        }
+
+        public Customer UpdateCustomerAddressList(Customer customer)
+        {
+            _context.Entry<Customer>(customer).State = EntityState.Modified;
+            _context.SaveChanges();
+            return customer;
+        }
+
+        public List<Customer> GetAll()
+        {
+            return _context.Customers
+            .Include(c => c.AddressList)
+            .Include(c => c.CreditCardList)
+            .AsNoTracking()
+            .ToList();
+        }
+
+        public Customer UpdateCustomerCreditCardList(Customer customer)
+        {
+            _context.Entry<Customer>(customer).State = EntityState.Modified;
+            _context.SaveChanges();
+            return customer;
         }
     }
 }

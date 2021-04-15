@@ -9,5 +9,10 @@ namespace Domain.CustomerContext
         {
             return x => x.Email == email;
         }
+
+        public static Expression<Func<Customer, bool>> GetById(int id)
+        {
+            return x => x.Id == id;
+        }
     }
 }

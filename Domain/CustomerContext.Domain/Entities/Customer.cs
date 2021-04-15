@@ -5,6 +5,7 @@ namespace Domain.CustomerContext
 {
     public class Customer : Identity<Customer, int>
     {
+        private List<CreditCard> _creditCardList = new List<CreditCard>();
         public Customer() 
         {      
         }
@@ -19,7 +20,7 @@ namespace Domain.CustomerContext
             this.Phone = phone;
             this.Email = email;
             this.Active = active;
-            this.AddressList = addressList;   
+            this.AddressList = addressList;
         }
 
         public string Name { get; set; }
@@ -31,5 +32,6 @@ namespace Domain.CustomerContext
         public string Email { get; set; }
         public int Active { get; set; }
         public List<Address> AddressList { get; set; }
+        public List<CreditCard> CreditCardList { get => _creditCardList; set => _creditCardList = value; }
     }
 }

@@ -1,11 +1,14 @@
 using System.Collections.Generic;
 using Shared;
+using Shared.Utils;
 
 namespace Domain.CustomerContext
 {
     public class CustomerHandler : 
         IHandler<CreateCustomerCommand>,
-        IHandler<UpdateCustomerPersonDataCommand>
+        IHandler<UpdateCustomerPersonDataCommand>,
+        IHandler<CreateCustomerAddresCommand>,
+        IHandler<CreateCustomerCreditCardCommand>
     {
         private readonly ICustomerRepository _repository;
 
@@ -52,6 +55,63 @@ namespace Domain.CustomerContext
             command.MergeEntity(customer);
             _repository.UpdateCustomer(customer);
             return new GenericCommandResult(true, "Sucesso na atualização do registro do cliente", customer);
+        }
+
+        public ICommandResult Handle(CreateCustomerAddresCommand command)
+        {
+            var customer = _repository.GetById(command.CustomerId);
+
+            if(customer == null)
+                return new GenericCommandResult(false, "Cliente não encontrado", null);
+
+            if(customer.Email != command.AuthEmail && command.AuthRole != "manager")
+            {
+                return null;
+            }
+
+            var address = new Address(
+                command.HomeType,
+                command.PublicPlaceType,
+                command.PublicPlaceName,
+                command.HomeNumber,
+                command.CEP,
+                command.Neighborhood,
+                command.City,
+                command.State,
+                command.Country,
+                command.Complement,
+                command.AddressLabel
+            );
+
+            customer.AddressList.Add(address);
+            _repository.UpdateCustomerAddressList(customer);
+
+            return new GenericCommandResult(true, "Endereço adicionado com sucesso", customer);
+        }
+
+        public ICommandResult Handle(CreateCustomerCreditCardCommand command)
+        {
+            var customer = _repository.GetById(command.CustomerId);
+
+            if(customer == null)
+                return new GenericCommandResult(false, "Cliente não encontrado", null);
+
+            if(customer.Email != command.AuthEmail && command.AuthRole != "manager")
+            {
+                return null;
+            }
+
+            var creditCard = new CreditCard(
+                command.CreditCardCompany,
+                command.CardNumber,
+                StringToDateTime.Convert(command.Validity),
+                command.Label
+            );
+
+            customer.CreditCardList.Add(creditCard);
+            _repository.UpdateCustomerCreditCardList(customer);
+
+            return new GenericCommandResult(true, "Cartão adicionado com sucesso", customer);
         }
     }
 }
