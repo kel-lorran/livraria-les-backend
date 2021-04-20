@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Domain.Shared.Entities;
 using Shared;
 using Shared.Utils;
 
@@ -44,6 +45,8 @@ namespace Domain.CustomerContext
                 command.Active,
                 new List<Address>{address}
             );
+
+            customer.SetId(command.Id);
 
             _repository.CreateCustomer(customer);
             return new GenericCommandResult(true, "Sucesso no registro do cliente", customer);

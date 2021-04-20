@@ -19,6 +19,7 @@ using Microsoft.IdentityModel.Tokens;
 using Infra;
 using Domain.UserContext;
 using Domain.CustomerContext;
+using Domain.MerchandiseContext;
 
 namespace Api
 {
@@ -51,6 +52,15 @@ namespace Api
 
             services.AddTransient<ICustomerRepository, CustomerRepository>();
             services.AddTransient<CustomerHandler, CustomerHandler>();
+
+            services.AddTransient<IProductRepository, ProductRepository>();
+            services.AddTransient<ProductHandler, ProductHandler>();
+
+            services.AddTransient<IMerchandiseRepository, MerchandiseRepository>();
+            services.AddTransient<MerchandiseHandler, MerchandiseHandler>();
+
+            services.AddTransient<IOrderRepository, OrderRepository>();
+            services.AddTransient<OrderHandler, OrderHandler>();
 
             var key = Encoding.ASCII.GetBytes(Secret.SecretKey);
 

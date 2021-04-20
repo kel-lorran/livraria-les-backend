@@ -4,6 +4,7 @@
     <ProjectReference Include="..\Shared\Shared.csproj" />
     <ProjectReference Include="..\Domain\CustomerContext.Domain\CustomerContext.Domain.csproj" />
     <ProjectReference Include="..\Domain\UserContext.Domain\UserContext.Domain.csproj" />
+    <ProjectReference Include="..\Domain\MerchandiseContext.Domain\MerchandiseContext.Domain.csproj" />
   </ItemGroup>
 
   <ItemGroup>

@@ -1,6 +1,6 @@
 using Shared;
 
-namespace Domain.CustomerContext
+namespace Domain.Shared.Entities
 {
     public class Address : Identity<Address, int>
     {

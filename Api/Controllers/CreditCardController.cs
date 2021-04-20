@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Api
 {
-    public class CardController : ControllerBase
+    public class CreditCardController : ControllerBase
     {
         
     }

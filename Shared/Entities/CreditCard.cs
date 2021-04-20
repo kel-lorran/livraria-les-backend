@@ -1,7 +1,7 @@
 using System;
 using Shared;
 
-namespace Domain.CustomerContext
+namespace Domain.Shared.Entities
 {
     public class CreditCard : Identity<CreditCard, int>
     {
