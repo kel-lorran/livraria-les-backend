@@ -1,6 +1,8 @@
 using System.Threading.Tasks;
 using Api.Services;
+using Domain.CustomerContext;
 using Domain.UserContext;
+using Infra;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Shared;
@@ -16,20 +18,18 @@ namespace Api
         [AllowAnonymous]
         public async Task<ActionResult<GenericCommandResult>> Authenticate(
             [FromBody]LoginCommand command,
-            [FromServices]UserHandler handler
+            [FromServices]IUserRepository repository,
+            [FromServices]ICustomerRepository customerRepository
         )
         {
-            var result = (GenericCommandResult) handler.Handle(command);
-            if (result.Success && result.Data != null)
+            var user = repository.GetByUserAndPassword(command.Email, command.Password);
+            var customer = customerRepository.GetByUserId(user.Id);
+            if (user != null && customer != null)
             {
-                var user = (User) result.Data;
-                var token = TokenService.GenerateToken(user);
+                var token = TokenService.GenerateToken(user, customer);
                 return Ok(new { token = token, email = user.Email });
             }
-            if (result.Data == null)
-                return NotFound(result);
-
-            return BadRequest(result);
+            return NotFound();
         }
     }
 }

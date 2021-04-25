@@ -33,7 +33,7 @@ namespace Domain.CustomerContext
             this.AddressLabel = addressLabel;
         }
 
-        public int Id { get; private set; }
+        public int UserId { get; private set; }
         public string Name { get; set; }
         public string LastName { get; set; }
         public string Gender { get; set; }
@@ -56,9 +56,9 @@ namespace Domain.CustomerContext
         public string Complement { get; set; }
         public string AddressLabel { get; set; }
 
-        public void SetId(int id)
+        public void SetUserId(int id)
         {
-            Id = id;
+            UserId = id;
         }
     }
 }

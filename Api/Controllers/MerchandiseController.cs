@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Domain.MerchandiseContext;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Shared;
 
 namespace Api
 {
@@ -13,7 +14,7 @@ namespace Api
         [HttpPost]
         [Route("increment")]
         [Authorize(Roles = "manager")]
-        public async Task<ActionResult<Merchandise>> Create(
+        public async Task<ActionResult<GenericCommandResult>> Create(
             [FromBody]IncrementMerchandiseStockCommand command,
             [FromServices]IProductRepository productRepository,
             [FromServices]MerchandiseHandler handler
@@ -29,7 +30,7 @@ namespace Api
         [HttpPost]
         [Route("decrement")]
         [Authorize(Roles = "manager")]
-        public async Task<ActionResult<Merchandise>> Create(
+        public async Task<ActionResult<GenericCommandResult>> Create(
             [FromBody]DecrementMerchandiseStockCommand command,
             [FromServices]IProductRepository productRepository,
             [FromServices]MerchandiseHandler handler
@@ -48,8 +49,17 @@ namespace Api
             [FromServices]IMerchandiseRepository repository
         )
         {
-            var result = repository.GetAllActive();
-            return result;
+            return repository.GetAllActive();
+        }
+        [HttpGet]
+        [Route("{id:int}")]
+        [AllowAnonymous]
+        public async Task<ActionResult<Merchandise>> GetById(
+            [FromServices]IMerchandiseRepository repository,
+            int id
+        )
+        {
+            return repository.GetById(id);
         }
     }
 }

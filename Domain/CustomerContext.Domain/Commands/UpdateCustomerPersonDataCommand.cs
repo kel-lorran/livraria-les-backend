@@ -1,5 +1,6 @@
 using System;
 using Shared;
+using Shared.Utils;
 
 namespace Domain.CustomerContext
 {
@@ -49,7 +50,7 @@ namespace Domain.CustomerContext
             if (CPF != null)
                 customer.CPF = CPF;
             if (BirthDate != null)
-                customer.BirthDate = BirthDate;
+                customer.BirthDate = StringToDateTime.Convert(BirthDate);
             if (Phone != null)
                 customer.Phone = Phone;
             if (Email != null)

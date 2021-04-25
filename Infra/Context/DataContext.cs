@@ -3,6 +3,7 @@ using Domain.MerchandiseContext;
 using Domain.Shared.Entities;
 using Domain.UserContext;
 using Microsoft.EntityFrameworkCore;
+using Shared;
 
 namespace Infra
 {
@@ -19,6 +20,7 @@ namespace Infra
         public DbSet<Book> Books { get; private set; }
         public DbSet<Merchandise> Merchandises { get; private set; }
         public DbSet<Order> Orders { get; private set; }
+        public DbSet<Coupon> Coupons { get; private set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

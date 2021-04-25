@@ -2,6 +2,7 @@ using System.Threading.Tasks;
 using Domain.MerchandiseContext;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Shared;
 
 namespace Api
 {
@@ -11,7 +12,7 @@ namespace Api
     {
         [HttpPost]
         [Authorize(Roles = "manager")]
-        public async Task<ActionResult<Book>> Create(
+        public async Task<ActionResult<GenericCommandResult>> Create(
             [FromBody]CreateBookCommand command,
             [FromServices]ProductHandler handler
         )

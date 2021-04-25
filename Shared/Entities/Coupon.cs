@@ -4,6 +4,19 @@ namespace Shared
 {
     public class Coupon : Identity<Coupon, int>
     {
+        public Coupon()
+        {
+        }
+
+        public Coupon(float value, string status, string type, string code, DateTime date)
+        {
+            Value = value;
+            Status = status;
+            Type = type;
+            Code = code;
+            Date = date;
+        }
+
         public float Value { get; set; }
         public string Status { get; set; }
         public string Type { get; set; }

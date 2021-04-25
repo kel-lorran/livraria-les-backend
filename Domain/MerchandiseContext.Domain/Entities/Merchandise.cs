@@ -17,6 +17,8 @@ namespace Domain.MerchandiseContext
 
         public float Price { get; set; }
         public int Quantity { get; set; }
+        [System.Text.Json.Serialization.JsonInclude]
         public Book Book { get; set; }
+        public string Status { get; set; }
     }
 }

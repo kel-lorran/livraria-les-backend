@@ -27,7 +27,7 @@ namespace Api
             if (userResult.Data != null)
             {
                 var user = (User) userResult.Data;
-                command.SetId(user.Id);
+                command.SetUserId(user.Id);
                 var result = (GenericCommandResult) handler.Handle(command);
                 var customer = (Customer) result.Data;
                 return Ok(customer);

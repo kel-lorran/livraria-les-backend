@@ -14,5 +14,10 @@ namespace Domain.CustomerContext
         {
             return x => x.Id == id;
         }
+
+        public static Expression<Func<Customer, bool>> GetByUserId(int id)
+        {
+            return x => x.UserId == id;
+        }
     }
 }

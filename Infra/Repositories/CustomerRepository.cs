@@ -67,5 +67,13 @@ namespace Infra
             _context.SaveChanges();
             return customer;
         }
+
+        public Customer GetByUserId(int id)
+        {
+            return _context.Customers
+                .Include(c => c.AddressList)
+                .Include(c => c.CreditCardList)
+                .FirstOrDefault(CustomerQueries.GetByUserId(id));
+        }
     }
 }

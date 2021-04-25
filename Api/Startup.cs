@@ -37,15 +37,15 @@ namespace Api
         {
             services.AddCors();
 
-            services.AddControllersWithViews()
-                .AddNewtonsoftJson(options =>
-                options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
-            );
+            // services.AddControllersWithViews()
+            //     .AddNewtonsoftJson(options =>
+            //     options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+            // );
 
             services.AddControllers();
             
-            services.AddDbContext<DataContext>(opt => opt.UseInMemoryDatabase("Database"));
-            // services.AddDbContext<DataContext>(opt => opt.UseSqlServer(Configuration.GetConnectionString("connectionString")));
+            // services.AddDbContext<DataContext>(opt => opt.UseInMemoryDatabase("Database"));
+            services.AddDbContext<DataContext>(opt => opt.UseSqlServer(Configuration.GetConnectionString("defaultConnection")));
 
             services.AddTransient<IUserRepository, UserRepository>();
             services.AddTransient<UserHandler, UserHandler>();
@@ -61,6 +61,9 @@ namespace Api
 
             services.AddTransient<IOrderRepository, OrderRepository>();
             services.AddTransient<OrderHandler, OrderHandler>();
+
+            services.AddTransient<ICouponRepository, CouponRepository>();
+            services.AddTransient<CouponHandler, CouponHandler>();
 
             var key = Encoding.ASCII.GetBytes(Secret.SecretKey);
 

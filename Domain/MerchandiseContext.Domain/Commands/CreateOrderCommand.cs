@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Domain.Shared.Entities;
 using Shared;
@@ -10,16 +11,15 @@ namespace Domain.MerchandiseContext
         {
         }
 
-        public CreateOrderCommand(int customerId, List<Merchandise> merchandiseList, List<Merchandise> exchangedMerchandise, float subTotal, float total, float discount, List<CreditCard> creditCardList, string date, List<Coupon> couponAppliedList, Address deliveryAddress, Address billingAddress)
+        public CreateOrderCommand(int customerId, List<Merchandise> merchandiseList, float subTotal, float total, float discount, float shippingPrice, List<CreditCard> creditCardList, List<Coupon> couponAppliedList, Address deliveryAddress, Address billingAddress)
         {
             CustomerId = customerId;
             MerchandiseList = merchandiseList;
-            ExchangedMerchandise = exchangedMerchandise;
             SubTotal = subTotal;
             Total = total;
             Discount = discount;
+            ShippingPrice = shippingPrice;
             CreditCardList = creditCardList;
-            Date = date;
             CouponAppliedList = couponAppliedList;
             DeliveryAddress = deliveryAddress;
             BillingAddress = billingAddress;
@@ -27,12 +27,12 @@ namespace Domain.MerchandiseContext
 
         public int CustomerId { get; set; }
         public List<Merchandise> MerchandiseList { get; set; }
-        public List<Merchandise> ExchangedMerchandise { get; set; }
         public float SubTotal { get; set; }
         public float Total { get; set; }
         public float Discount { get; set; }
+        public float ShippingPrice { get; set; }
         public List<CreditCard> CreditCardList { get; set; }
-        public string Date { get; set; }
+        public DateTime Date { get => DateTime.Now; }
         public string Status { get => "em processamento"; }
         public List<Coupon> CouponAppliedList { get; set; }
         public Address DeliveryAddress { get; set; }

@@ -24,5 +24,10 @@ namespace Domain.UserContext
         public string Email { get; set; }
         public string Password { get; set; }
         public string Role { get; set; }
+
+        public void SetId(int id)
+        {
+            Id = id;
+        }
     }
 }

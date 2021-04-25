@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Domain.Shared.Entities;
 using Shared;
@@ -11,8 +12,9 @@ namespace Domain.CustomerContext
         {      
         }
 
-        public Customer(string name, string lastName, string gender, string cPF, string birthDate, string phone, string email, int active, List<Address> addressList) 
+        public Customer(int userId, string name, string lastName, string gender, string cPF, DateTime birthDate, string phone, string email, int active, List<Address> addressList) 
         {
+            this.UserId = userId;
             this.Name = name;
             this.LastName = lastName;
             this.Gender = gender;
@@ -24,20 +26,16 @@ namespace Domain.CustomerContext
             this.AddressList = addressList;
         }
 
+        public int UserId { get; private set; }
         public string Name { get; set; }
         public string LastName { get; set; }
         public string Gender { get; set; }
         public string CPF { get; set; }
-        public string BirthDate { get; set; }
+        public DateTime BirthDate { get; set; }
         public string Phone { get; set; }
         public string Email { get; set; }
         public int Active { get; set; }
         public List<Address> AddressList { get; set; }
         public List<CreditCard> CreditCardList { get => _creditCardList; set => _creditCardList = value; }
-
-        public void SetId(int id)
-        {
-            Id = id;
-        }
     }
 }

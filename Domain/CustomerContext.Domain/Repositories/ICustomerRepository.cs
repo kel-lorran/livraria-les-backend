@@ -9,6 +9,7 @@ namespace Domain.CustomerContext
         List<Customer> GetAll();
         Customer GetById(int id);
         Customer GetByEmail(string email);
+        Customer GetByUserId(int id);
         Customer UpdateCustomerAddressList(Customer customer);
         Customer UpdateCustomerCreditCardList(Customer customer);
     }

@@ -35,18 +35,17 @@ namespace Domain.CustomerContext
             );
 
             var customer = new Customer(
+                command.UserId,
                 command.Name,
                 command.LastName,
                 command.Gender,
                 command.CPF,
-                command.BirthDate,
+                StringToDateTime.Convert(command.BirthDate),
                 command.Phone,
                 command.Email,
                 command.Active,
                 new List<Address>{address}
             );
-
-            customer.SetId(command.Id);
 
             _repository.CreateCustomer(customer);
             return new GenericCommandResult(true, "Sucesso no registro do cliente", customer);
