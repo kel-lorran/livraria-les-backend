@@ -11,7 +11,7 @@ namespace Domain.MerchandiseContext
         {
         }
 
-        public CreateOrderCommand(int customerId, List<Merchandise> merchandiseList, float subTotal, float total, float discount, float shippingPrice, List<CreditCard> creditCardList, List<Coupon> couponAppliedList, Address deliveryAddress, Address billingAddress)
+        public CreateOrderCommand(int customerId, List<OrderMerchandise> merchandiseList, float subTotal, float total, float discount, float shippingPrice, List<CreditCard> creditCardList, List<Coupon> couponAppliedList, Address deliveryAddress, Address billingAddress)
         {
             CustomerId = customerId;
             MerchandiseList = merchandiseList;
@@ -26,7 +26,7 @@ namespace Domain.MerchandiseContext
         }
 
         public int CustomerId { get; set; }
-        public List<Merchandise> MerchandiseList { get; set; }
+        public List<OrderMerchandise> MerchandiseList { get; set; }
         public float SubTotal { get; set; }
         public float Total { get; set; }
         public float Discount { get; set; }

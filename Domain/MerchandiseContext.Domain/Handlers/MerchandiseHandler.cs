@@ -15,12 +15,11 @@ namespace Domain.MerchandiseContext
 
         public ICommandResult Handle(IncrementMerchandiseStockCommand command)
         {
-            // id of merchandise ever equal id of book inside this
-            Merchandise merchandise = _repository.GetById(command.BookId);
+            var merchandise = _repository.GetById(command.BookId);
             string message = "";
 
             if (merchandise == null) {
-                merchandise = new Merchandise(
+                merchandise = new StockMerchandise(
                     command.Price,
                     command.Quantity,
                     command.Book
@@ -39,8 +38,7 @@ namespace Domain.MerchandiseContext
 
         public ICommandResult Handle(DecrementMerchandiseStockCommand command)
         {
-            // id of merchandise ever equal id of book inside this
-            Merchandise merchandise = _repository.GetById(command.BookId);
+            var merchandise = _repository.GetById(command.BookId);
 
             merchandise.Quantity -= command.Quantity;
             _repository.UpdateMerchandise(merchandise);

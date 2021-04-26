@@ -24,6 +24,14 @@ namespace Infra
         public List<Order> GetAll()
         {
             return _context.Orders
+            .Include(o => o.MerchandiseList)
+                .ThenInclude(m => m.Book)
+            .Include(o => o.ExchangedMerchandise)
+                .ThenInclude(m => m.Book)
+            .Include(o => o.CreditCardList)
+            .Include(o => o.CouponAppliedList)
+            .Include(o => o.DeliveryAddress)
+            .Include(o => o.BillingAddress)
             .AsNoTracking()
             .ToList();
         }

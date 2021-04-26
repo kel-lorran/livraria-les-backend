@@ -8,12 +8,12 @@ namespace Domain.MerchandiseContext
     public class CreateExchangeCouponCommand : ICommand
     {
         private float _value = 0;
-        private List<Merchandise> _exchangedMerchandise;
+        private List<OrderMerchandise> _exchangedMerchandise;
         public CreateExchangeCouponCommand()
         {
         }
 
-        public CreateExchangeCouponCommand(int customerId, List<Merchandise> exchangedMerchandise)
+        public CreateExchangeCouponCommand(int customerId, List<OrderMerchandise> exchangedMerchandise)
         {
             CustomerId = customerId;
             ExchangedMerchandise = exchangedMerchandise;
@@ -25,11 +25,11 @@ namespace Domain.MerchandiseContext
         public string Code { get => (new Random()).Next().ToString(); }
         public DateTime Date { get => DateTime.Now; }
         public int? CustomerId { get; set; }
-        public List<Merchandise> ExchangedMerchandise { 
+        public List<OrderMerchandise> ExchangedMerchandise { 
             get => ExchangedMerchandise;
             set {
                 _exchangedMerchandise = value;
-                _value = _exchangedMerchandise.Aggregate(0, (float ac, Merchandise m) => ac + (m.Quantity * m.Price));
+                _value = _exchangedMerchandise.Aggregate(0, (float ac, OrderMerchandise m) => ac + (m.Quantity * m.Price));
             }
         }
     }

@@ -18,14 +18,17 @@ namespace Infra
         public DbSet<Address> Addresses { get; private set; }
         public DbSet<CreditCard> CreditCards { get; private set; }
         public DbSet<Book> Books { get; private set; }
-        public DbSet<Merchandise> Merchandises { get; private set; }
+        public DbSet<StockMerchandise> StockMerchandises { get; private set; }
+        public DbSet<OrderMerchandise> OrderMerchandises { get; private set; }
         public DbSet<Order> Orders { get; private set; }
         public DbSet<Coupon> Coupons { get; private set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfiguration(new CustomerMap());
-            modelBuilder.ApplyConfiguration(new MerchandiseMap());
+            modelBuilder.ApplyConfiguration(new StockMerchandiseMap());
+            modelBuilder.ApplyConfiguration(new OrderMap());
+            modelBuilder.ApplyConfiguration(new AddressMap());
 
             base.OnModelCreating(modelBuilder);
         }

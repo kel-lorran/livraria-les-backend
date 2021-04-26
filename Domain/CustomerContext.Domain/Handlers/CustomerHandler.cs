@@ -66,11 +66,6 @@ namespace Domain.CustomerContext
             if(customer == null)
                 return new GenericCommandResult(false, "Cliente não encontrado", null);
 
-            if(customer.Email != command.AuthEmail && command.AuthRole != "manager")
-            {
-                return null;
-            }
-
             var address = new Address(
                 command.HomeType,
                 command.PublicPlaceType,
@@ -97,11 +92,6 @@ namespace Domain.CustomerContext
 
             if(customer == null)
                 return new GenericCommandResult(false, "Cliente não encontrado", null);
-
-            if(customer.Email != command.AuthEmail && command.AuthRole != "manager")
-            {
-                return null;
-            }
 
             var creditCard = new CreditCard(
                 command.CreditCardCompany,

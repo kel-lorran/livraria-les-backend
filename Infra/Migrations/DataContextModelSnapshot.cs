@@ -118,42 +118,6 @@ namespace Infra.Migrations
                     b.ToTable("Books");
                 });
 
-            modelBuilder.Entity("Domain.MerchandiseContext.Merchandise", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int?>("BookId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("OrderId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("OrderId1")
-                        .HasColumnType("int");
-
-                    b.Property<float>("Price")
-                        .HasColumnType("real");
-
-                    b.Property<int>("Quantity")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Status")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("BookId");
-
-                    b.HasIndex("OrderId");
-
-                    b.HasIndex("OrderId1");
-
-                    b.ToTable("Merchandises");
-                });
-
             modelBuilder.Entity("Domain.MerchandiseContext.Order", b =>
                 {
                     b.Property<int>("Id")
@@ -197,6 +161,65 @@ namespace Infra.Migrations
                     b.ToTable("Orders");
                 });
 
+            modelBuilder.Entity("Domain.MerchandiseContext.OrderMerchandise", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int?>("BookId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("OrderId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("OrderId1")
+                        .HasColumnType("int");
+
+                    b.Property<float>("Price")
+                        .HasColumnType("real");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Status")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BookId");
+
+                    b.HasIndex("OrderId");
+
+                    b.HasIndex("OrderId1");
+
+                    b.ToTable("OrderMerchandises");
+                });
+
+            modelBuilder.Entity("Domain.MerchandiseContext.StockMerchandise", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int?>("BookId")
+                        .HasColumnType("int");
+
+                    b.Property<float>("Price")
+                        .HasColumnType("real");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BookId");
+
+                    b.ToTable("StockMerchandises");
+                });
+
             modelBuilder.Entity("Domain.Shared.Entities.Address", b =>
                 {
                     b.Property<int>("Id")
@@ -230,6 +253,9 @@ namespace Infra.Migrations
 
                     b.Property<string>("Neighborhood")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("OrderForeignKey")
+                        .HasColumnType("int");
 
                     b.Property<string>("PublicPlaceName")
                         .HasColumnType("nvarchar(max)");
@@ -337,7 +363,22 @@ namespace Infra.Migrations
                     b.ToTable("Coupons");
                 });
 
-            modelBuilder.Entity("Domain.MerchandiseContext.Merchandise", b =>
+            modelBuilder.Entity("Domain.MerchandiseContext.Order", b =>
+                {
+                    b.HasOne("Domain.Shared.Entities.Address", "BillingAddress")
+                        .WithMany()
+                        .HasForeignKey("BillingAddressId");
+
+                    b.HasOne("Domain.Shared.Entities.Address", "DeliveryAddress")
+                        .WithMany()
+                        .HasForeignKey("DeliveryAddressId");
+
+                    b.Navigation("BillingAddress");
+
+                    b.Navigation("DeliveryAddress");
+                });
+
+            modelBuilder.Entity("Domain.MerchandiseContext.OrderMerchandise", b =>
                 {
                     b.HasOne("Domain.MerchandiseContext.Book", "Book")
                         .WithMany()
@@ -354,19 +395,13 @@ namespace Infra.Migrations
                     b.Navigation("Book");
                 });
 
-            modelBuilder.Entity("Domain.MerchandiseContext.Order", b =>
+            modelBuilder.Entity("Domain.MerchandiseContext.StockMerchandise", b =>
                 {
-                    b.HasOne("Domain.Shared.Entities.Address", "BillingAddress")
+                    b.HasOne("Domain.MerchandiseContext.Book", "Book")
                         .WithMany()
-                        .HasForeignKey("BillingAddressId");
+                        .HasForeignKey("BookId");
 
-                    b.HasOne("Domain.Shared.Entities.Address", "DeliveryAddress")
-                        .WithMany()
-                        .HasForeignKey("DeliveryAddressId");
-
-                    b.Navigation("BillingAddress");
-
-                    b.Navigation("DeliveryAddress");
+                    b.Navigation("Book");
                 });
 
             modelBuilder.Entity("Domain.Shared.Entities.Address", b =>

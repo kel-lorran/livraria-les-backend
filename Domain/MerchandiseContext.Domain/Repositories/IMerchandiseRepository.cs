@@ -4,9 +4,9 @@ namespace Domain.MerchandiseContext
 {
     public interface IMerchandiseRepository
     {
-        Merchandise CreateMerchandise(Merchandise merchandise);
-        Merchandise GetById(int id);
-        Merchandise UpdateMerchandise(Merchandise merchandise);
-        List<Merchandise> GetAllActive();
+        StockMerchandise CreateMerchandise(StockMerchandise merchandise);
+        StockMerchandise GetById(int id);
+        StockMerchandise UpdateMerchandise(StockMerchandise merchandise);
+        List<StockMerchandise> GetAllActive();
     }
 }

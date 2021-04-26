@@ -45,7 +45,7 @@ namespace Api
         [HttpGet]
         [Route("active")]
         [AllowAnonymous]
-        public async Task<ActionResult<List<Merchandise>>> GetAllActive(
+        public async Task<ActionResult<List<StockMerchandise>>> GetAllActive(
             [FromServices]IMerchandiseRepository repository
         )
         {
@@ -54,7 +54,7 @@ namespace Api
         [HttpGet]
         [Route("{id:int}")]
         [AllowAnonymous]
-        public async Task<ActionResult<Merchandise>> GetById(
+        public async Task<ActionResult<StockMerchandise>> GetById(
             [FromServices]IMerchandiseRepository repository,
             int id
         )

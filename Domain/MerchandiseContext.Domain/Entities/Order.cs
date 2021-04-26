@@ -7,13 +7,13 @@ namespace Domain.MerchandiseContext
 {
     public class Order : Identity<Order, int>
     {
-        private List<Merchandise> _exchangedMerchandise = new List<Merchandise>();
+        private List<OrderMerchandise> _exchangedMerchandise = new List<OrderMerchandise>();
         private List<Coupon> _couponAppliedList = new List<Coupon>();
         public Order()
         {
         }
 
-        public Order(int customerId, List<Merchandise> merchandiseList, float subTotal, float total, float discount, float shippingPrice, List<CreditCard> creditCardList, DateTime date, string status, Address deliveryAddress, Address billingAddress)
+        public Order(int customerId, List<OrderMerchandise> merchandiseList, float subTotal, float total, float discount, float shippingPrice, List<CreditCard> creditCardList, DateTime date, string status, Address deliveryAddress, Address billingAddress)
         {
             CustomerId = customerId;
             MerchandiseList = merchandiseList;
@@ -29,8 +29,8 @@ namespace Domain.MerchandiseContext
         }
 
         public int CustomerId { get; set; }
-        public List<Merchandise> MerchandiseList { get; set; }
-        public List<Merchandise> ExchangedMerchandise { get => _exchangedMerchandise; set => _exchangedMerchandise = value; }
+        public List<OrderMerchandise> MerchandiseList { get; set; }
+        public List<OrderMerchandise> ExchangedMerchandise { get => _exchangedMerchandise; set => _exchangedMerchandise = value; }
         public float SubTotal { get; set; }
         public float Total { get; set; }
         public float Discount { get; set; }

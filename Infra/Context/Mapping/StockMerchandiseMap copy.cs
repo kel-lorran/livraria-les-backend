@@ -4,9 +4,9 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Infra
 {
-    public class MerchandiseMap : IEntityTypeConfiguration<Merchandise>
+    public class StockMerchandiseMap : IEntityTypeConfiguration<StockMerchandise>
     {
-        public void Configure(EntityTypeBuilder<Merchandise> builder)
+        public void Configure(EntityTypeBuilder<StockMerchandise> builder)
         {
             builder.HasOne(m => m.Book);
         }

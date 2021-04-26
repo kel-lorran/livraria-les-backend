@@ -2,7 +2,7 @@ using Shared;
 
 namespace Domain.MerchandiseContext
 {
-    public class Merchandise : Identity<Book, int>
+    public abstract class  Merchandise : Identity<Book, int>
     {
         public Merchandise()
         {
@@ -19,6 +19,5 @@ namespace Domain.MerchandiseContext
         public int Quantity { get; set; }
         [System.Text.Json.Serialization.JsonInclude]
         public Book Book { get; set; }
-        public string Status { get; set; }
     }
 }

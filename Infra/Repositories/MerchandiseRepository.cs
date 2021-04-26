@@ -14,32 +14,32 @@ namespace Infra
             _context = context;
         }
 
-        public Merchandise CreateMerchandise(Merchandise merchandise)
+        public StockMerchandise CreateMerchandise(StockMerchandise merchandise)
         {
-            _context.Merchandises.Add(merchandise);
+            _context.StockMerchandises.Add(merchandise);
             _context.SaveChanges();
             return merchandise;
         }
 
-        public List<Merchandise> GetAllActive()
+        public List<StockMerchandise> GetAllActive()
         {
-            return _context.Merchandises
+            return _context.StockMerchandises
                 .Include(m => m.Book)
-                .Where(MerchandiseQueries.GetAllActive())
+                .Where(StockMerchandiseQueries.GetAllActive())
                 .AsNoTracking()
                 .ToList();
         }
 
-        public Merchandise GetById(int id)
+        public StockMerchandise GetById(int id)
         {
-            return _context.Merchandises
+            return _context.StockMerchandises
                 .Include(m => m.Book)
-                .FirstOrDefault(MerchandiseQueries.GetById(id));
+                .FirstOrDefault(StockMerchandiseQueries.GetById(id));
         }
 
-        public Merchandise UpdateMerchandise(Merchandise merchandise)
+        public StockMerchandise UpdateMerchandise(StockMerchandise merchandise)
         {
-            _context.Entry<Merchandise>(merchandise).State = EntityState.Modified;
+            _context.Entry<StockMerchandise>(merchandise).State = EntityState.Modified;
             _context.SaveChanges();
             return merchandise;
         }

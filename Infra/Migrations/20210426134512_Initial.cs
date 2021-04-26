@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Infra.Migrations
 {
-    public partial class InitialTest : Migration
+    public partial class Initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -72,6 +72,27 @@ namespace Infra.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "StockMerchandises",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Price = table.Column<float>(type: "real", nullable: false),
+                    Quantity = table.Column<int>(type: "int", nullable: false),
+                    BookId = table.Column<int>(type: "int", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_StockMerchandises", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_StockMerchandises_Books_BookId",
+                        column: x => x.BookId,
+                        principalTable: "Books",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Addresses",
                 columns: table => new
                 {
@@ -88,7 +109,8 @@ namespace Infra.Migrations
                     Country = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Complement = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     AddressLabel = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    CustomerId = table.Column<int>(type: "int", nullable: true)
+                    CustomerId = table.Column<int>(type: "int", nullable: true),
+                    OrderForeignKey = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -190,35 +212,35 @@ namespace Infra.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Merchandises",
+                name: "OrderMerchandises",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Price = table.Column<float>(type: "real", nullable: false),
-                    Quantity = table.Column<int>(type: "int", nullable: false),
-                    BookId = table.Column<int>(type: "int", nullable: true),
                     Status = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     OrderId = table.Column<int>(type: "int", nullable: true),
-                    OrderId1 = table.Column<int>(type: "int", nullable: true)
+                    OrderId1 = table.Column<int>(type: "int", nullable: true),
+                    Price = table.Column<float>(type: "real", nullable: false),
+                    Quantity = table.Column<int>(type: "int", nullable: false),
+                    BookId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Merchandises", x => x.Id);
+                    table.PrimaryKey("PK_OrderMerchandises", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Merchandises_Books_BookId",
+                        name: "FK_OrderMerchandises_Books_BookId",
                         column: x => x.BookId,
                         principalTable: "Books",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Merchandises_Orders_OrderId",
+                        name: "FK_OrderMerchandises_Orders_OrderId",
                         column: x => x.OrderId,
                         principalTable: "Orders",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Merchandises_Orders_OrderId1",
+                        name: "FK_OrderMerchandises_Orders_OrderId1",
                         column: x => x.OrderId1,
                         principalTable: "Orders",
                         principalColumn: "Id",
@@ -246,18 +268,18 @@ namespace Infra.Migrations
                 column: "OrderId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Merchandises_BookId",
-                table: "Merchandises",
+                name: "IX_OrderMerchandises_BookId",
+                table: "OrderMerchandises",
                 column: "BookId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Merchandises_OrderId",
-                table: "Merchandises",
+                name: "IX_OrderMerchandises_OrderId",
+                table: "OrderMerchandises",
                 column: "OrderId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Merchandises_OrderId1",
-                table: "Merchandises",
+                name: "IX_OrderMerchandises_OrderId1",
+                table: "OrderMerchandises",
                 column: "OrderId1");
 
             migrationBuilder.CreateIndex(
@@ -269,6 +291,11 @@ namespace Infra.Migrations
                 name: "IX_Orders_DeliveryAddressId",
                 table: "Orders",
                 column: "DeliveryAddressId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_StockMerchandises_BookId",
+                table: "StockMerchandises",
+                column: "BookId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -280,16 +307,19 @@ namespace Infra.Migrations
                 name: "CreditCards");
 
             migrationBuilder.DropTable(
-                name: "Merchandises");
+                name: "OrderMerchandises");
+
+            migrationBuilder.DropTable(
+                name: "StockMerchandises");
 
             migrationBuilder.DropTable(
                 name: "Users");
 
             migrationBuilder.DropTable(
-                name: "Books");
+                name: "Orders");
 
             migrationBuilder.DropTable(
-                name: "Orders");
+                name: "Books");
 
             migrationBuilder.DropTable(
                 name: "Addresses");

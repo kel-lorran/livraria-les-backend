@@ -3,13 +3,13 @@ using System.Linq.Expressions;
 
 namespace Domain.MerchandiseContext
 {
-    public static class MerchandiseQueries
+    public static class StockMerchandiseQueries
     {
-        public static Expression<Func<Merchandise, bool>> GetById(int id)
+        public static Expression<Func<StockMerchandise, bool>> GetById(int id)
         {
             return x => x.Id == id;
         }
-        public static Expression<Func<Merchandise, bool>> GetAllActive()
+        public static Expression<Func<StockMerchandise, bool>> GetAllActive()
         {
             return x => x.Book.Active == 1 && x.Quantity > 0;
         }

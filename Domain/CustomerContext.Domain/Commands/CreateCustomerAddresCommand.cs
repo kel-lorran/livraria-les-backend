@@ -36,16 +36,5 @@ namespace Domain.CustomerContext
         public string Complement { get; set; }
         public string AddressLabel { get; set; }
         public int CustomerId { get; set; }
-        public string AuthEmail { get; private set; }
-        public string AuthRole { get; private set; }
-
-        public void SetAuthEmail(string email)
-        {
-            AuthEmail = email;
-        }
-        public void SetAuthRole(string role)
-        {
-            AuthRole = role;
-        }
     }
 }

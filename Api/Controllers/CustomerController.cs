@@ -84,14 +84,16 @@ namespace Api
             [FromServices]CustomerHandler handler
         )
         {
-            var email = User.Claims.FirstOrDefault(x => x.Type.Equals(ClaimTypes.Email))?.Value;
             var role = User.Claims.FirstOrDefault(x => x.Type.Equals(ClaimTypes.Role))?.Value;
-            command.SetAuthEmail(email);
-            command.SetAuthRole(role);
+            var customerId = int.Parse(User.Claims.FirstOrDefault(x => x.Type.Equals(ClaimTypes.NameIdentifier))?.Value);
+
+            if(customerId == 0)
+                command.CustomerId = customerId;
+
+            if(customerId != command.CustomerId && role != "manager")
+                return Unauthorized();
             
             var result = (GenericCommandResult) handler.Handle(command);
-            if(result == null)
-                return Unauthorized();
 
             if(result.Data == null)
                 return NotFound(result);
@@ -106,14 +108,16 @@ namespace Api
             [FromServices]CustomerHandler handler
         )
         {
-            var email = User.Claims.FirstOrDefault(x => x.Type.Equals(ClaimTypes.Email))?.Value;
             var role = User.Claims.FirstOrDefault(x => x.Type.Equals(ClaimTypes.Role))?.Value;
-            command.SetAuthEmail(email);
-            command.SetAuthRole(role);
+            var customerId = int.Parse(User.Claims.FirstOrDefault(x => x.Type.Equals(ClaimTypes.NameIdentifier))?.Value);
+
+            if(command.CustomerId == 0)
+                command.CustomerId = customerId;
+
+            if(customerId != command.CustomerId && role != "manager")
+                return Unauthorized();
             
             var result = (GenericCommandResult) handler.Handle(command);
-            if(result == null)
-                return Unauthorized();
 
             if(result.Data == null)
                 return NotFound(result);

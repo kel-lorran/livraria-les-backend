@@ -5,19 +5,19 @@ namespace Domain.MerchandiseContext
 {
     public class UpdateOrderExchangedMerchandiseCommand : ICommand
     {
-        private List<Merchandise> _exchangedMerchandise;
+        private List<OrderMerchandise> _exchangedMerchandise;
         public UpdateOrderExchangedMerchandiseCommand()
         {
         }
 
-        public UpdateOrderExchangedMerchandiseCommand(int orderId, List<Merchandise> exchangedMerchandise)
+        public UpdateOrderExchangedMerchandiseCommand(int orderId, List<OrderMerchandise> exchangedMerchandise)
         {
             OrderId = orderId;
             ExchangedMerchandise = exchangedMerchandise;
         }
 
         public int OrderId { get; set; }
-        public List<Merchandise> ExchangedMerchandise { 
+        public List<OrderMerchandise> ExchangedMerchandise { 
             get => _exchangedMerchandise; 
             set
             {
