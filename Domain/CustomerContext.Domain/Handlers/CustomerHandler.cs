@@ -96,7 +96,7 @@ namespace Domain.CustomerContext
             var creditCard = new CreditCard(
                 command.CreditCardCompany,
                 command.CardNumber,
-                StringToDateTime.Convert(command.Validity),
+                StringToDateTime.Convert(command.Validity, "M/yyyy"),
                 command.Label
             );
 

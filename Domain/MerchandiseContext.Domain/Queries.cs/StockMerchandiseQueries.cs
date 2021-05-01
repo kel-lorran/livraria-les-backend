@@ -11,7 +11,8 @@ namespace Domain.MerchandiseContext
         }
         public static Expression<Func<StockMerchandise, bool>> GetAllActive()
         {
-            return x => x.Book.Active == 1 && x.Quantity > 0;
+            // return x => x.Book.Active == 1 && x.Quantity > 0;
+            return x => true;
         }
     }
 }

@@ -1,15 +1,13 @@
 namespace Domain.MerchandiseContext
 {
-    public class OrderMerchandise : Merchandise
+    public class StockMerchandise : Merchandise
     {
-        public OrderMerchandise()
+        public StockMerchandise()
         {
         }
 
-        public OrderMerchandise(float price, int quantity, Book book) : base(price, quantity, book)
+        public StockMerchandise(float price, int quantity, Book book) : base(price, quantity, book)
         {
         }
-
-        public string Status { get; set; }
     }
 }
