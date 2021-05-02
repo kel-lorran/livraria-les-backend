@@ -2,7 +2,7 @@ using Shared;
 
 namespace Domain.Shared.Entities
 {
-    public class Address : Identity<Address, int>
+    public class Address : Entity
     {
         public Address() 
         {

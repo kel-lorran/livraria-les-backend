@@ -2,7 +2,7 @@ using Shared;
 
 namespace Domain.UserContext
 {
-    public class User : Identity<User, int>
+    public class User : Entity
     {
         public User()
         {

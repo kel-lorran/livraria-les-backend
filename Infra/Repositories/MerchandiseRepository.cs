@@ -37,10 +37,17 @@ namespace Infra
                 .FirstOrDefault(StockMerchandiseQueries.GetById(id));
         }
 
+        public StockMerchandise GetByBookId(int id)
+        {
+            return _context.StockMerchandises
+                .Include(m => m.Book)
+                .FirstOrDefault(StockMerchandiseQueries.GetByBookId(id));
+        }
+
         public StockMerchandise UpdateMerchandise(StockMerchandise merchandise)
         {
             _context.Entry<StockMerchandise>(merchandise).State = EntityState.Modified;
-            _context.SaveChanges();
+            // _context.SaveChanges();
             return merchandise;
         }
     }

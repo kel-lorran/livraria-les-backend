@@ -5,7 +5,7 @@ using Shared;
 
 namespace Domain.MerchandiseContext
 {
-    public class Order : Identity<Order, int>
+    public class Order : Entity
     {
         private List<OrderMerchandise> _exchangedMerchandise = new List<OrderMerchandise>();
         private List<Coupon> _couponAppliedList = new List<Coupon>();

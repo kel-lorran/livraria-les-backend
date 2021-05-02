@@ -23,11 +23,14 @@ namespace Api
         )
         {
             var user = repository.GetByUserAndPassword(command.Email, command.Password);
-            var customer = customerRepository.GetByUserId(user.Id);
-            if (user != null && customer != null)
+            if (user != null)
             {
-                var token = TokenService.GenerateToken(user, customer);
-                return Ok(new { token = token, email = user.Email });
+                var customer = customerRepository.GetByUserId(user.Id);
+                if(customer != null)
+                {
+                    var token = TokenService.GenerateToken(user, customer);
+                    return Ok(new { token = token, email = user.Email });
+                }
             }
             return NotFound();
         }

@@ -45,7 +45,10 @@ namespace Api
             services.AddControllers();
             
             // services.AddDbContext<DataContext>(opt => opt.UseInMemoryDatabase("Database"));
-            services.AddDbContext<DataContext>(opt => opt.UseSqlServer(Configuration.GetConnectionString("defaultConnection")));
+            services.AddDbContext<DataContext>(opt => {
+                opt.EnableSensitiveDataLogging(true);
+                opt.UseSqlServer(Configuration.GetConnectionString("defaultConnection"));
+            });
 
             services.AddTransient<IUserRepository, UserRepository>();
             services.AddTransient<UserHandler, UserHandler>();

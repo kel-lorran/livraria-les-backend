@@ -30,6 +30,24 @@ namespace Api
             var result = handler.Handle(command);
             return Ok(result);
         }
+        [HttpPost]
+        [AllowAnonymous]
+        [Route("draft")]
+        public async Task<ActionResult<GenericCommandResult>> Create(
+            [FromBody]CreateDraftOrderCommand command,
+            [FromServices]OrderHandler handler
+        )
+        {
+            var customerId = User.Claims.FirstOrDefault(x => x.Type.Equals(ClaimTypes.NameIdentifier))?.Value;
+
+            if(customerId != null)
+                command.SetCustomerId(int.Parse(customerId));
+            
+            var result = (GenericCommandResult) handler.Handle(command);
+            if(!result.Success)
+                return BadRequest(result);
+            return Ok(result);
+        }
         [HttpPut]
         [Authorize(Roles = "manager")]
         [Route("status")]

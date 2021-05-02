@@ -21,6 +21,19 @@ namespace Infra
             return order;
         }
 
+        public bool DecrementMerchandiseStock(int id, int quantity)
+        {
+            var merchandiseRepository = new MerchandiseRepository(_context);
+            var merchandise = merchandiseRepository.GetById(id);
+            merchandise.Quantity -= quantity;
+            if(merchandise.Quantity > -1)
+            {
+                merchandiseRepository.UpdateMerchandise(merchandise);
+                return true;
+            }
+            return false; 
+        }
+
         public List<Order> GetAll()
         {
             return _context.Orders
@@ -58,10 +71,14 @@ namespace Infra
                 .FirstOrDefault(OrderQueries.GetById(id));
         }
 
+        public void SaveChanges()
+        {
+            _context.SaveChanges();
+        }
+
         public Order UpdateOrder(Order order)
         {
             _context.Entry<Order>(order).State = EntityState.Modified;
-            _context.SaveChanges();
             return order;
         }
     }

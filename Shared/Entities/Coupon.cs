@@ -2,7 +2,7 @@ using System;
 
 namespace Shared
 {
-    public class Coupon : Identity<Coupon, int>
+    public class Coupon : Entity
     {
         public Coupon()
         {

@@ -5,7 +5,7 @@ using Shared;
 
 namespace Domain.CustomerContext
 {
-    public class Customer : Identity<Customer, int>
+    public class Customer : Entity
     {
         private List<CreditCard> _creditCardList = new List<CreditCard>();
         public Customer() 

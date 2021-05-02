@@ -1,3 +1,4 @@
+using Domain.MerchandiseContext.Strategy;
 using Shared;
 using Shared.Utils;
 
@@ -6,7 +7,8 @@ namespace Domain.MerchandiseContext
     public class OrderHandler :
     IHandler<CreateOrderCommand>,
     IHandler<UpdateOrderStatusCommand>,
-    IHandler<UpdateOrderExchangedMerchandiseCommand>
+    IHandler<UpdateOrderExchangedMerchandiseCommand>,
+    IHandler<CreateDraftOrderCommand>
     {
         private readonly IOrderRepository _repository;
 
@@ -35,6 +37,7 @@ namespace Domain.MerchandiseContext
                 order.CouponAppliedList = command.CouponAppliedList;
 
             _repository.CreateOrder(order);
+            //_repository.SaveChanges();
 
             return new GenericCommandResult(true, "Pedido de compra criado com sucesso", order);
         }
@@ -63,6 +66,28 @@ namespace Domain.MerchandiseContext
             order.Status = "em troca";
             _repository.UpdateOrder(order);
             return new GenericCommandResult(true, "Pedido de troca registrado com sucesso", order);
+        }
+
+        public ICommandResult Handle(CreateDraftOrderCommand command)
+        {
+            var order = new Order();
+
+            order.MerchandiseList = command.MerchandiseList;
+            order.Date = command.Date;
+            order.Status = command.Status;
+
+            if(command.CustomerId > 0)
+                order.CustomerId = command.CustomerId;
+
+            // var strategy = new CreateDraftOrderStrategy();
+            // var strategyResult = (GenericCommandResult) strategy.Execute(order, _repository);
+
+            // if(!strategyResult.Success)
+            //     return strategyResult;
+
+            _repository.CreateOrder(order);
+            _repository.SaveChanges();
+            return new GenericCommandResult(true, "Pedido de compra tipo rascunho criado com sucesso", order);
         }
     }
 }

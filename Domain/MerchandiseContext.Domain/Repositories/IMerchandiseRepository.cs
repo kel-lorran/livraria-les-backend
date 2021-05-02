@@ -6,6 +6,7 @@ namespace Domain.MerchandiseContext
     {
         StockMerchandise CreateMerchandise(StockMerchandise merchandise);
         StockMerchandise GetById(int id);
+        StockMerchandise GetByBookId(int id);
         StockMerchandise UpdateMerchandise(StockMerchandise merchandise);
         List<StockMerchandise> GetAllActive();
     }

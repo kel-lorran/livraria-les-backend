@@ -3,7 +3,7 @@ using Shared;
 
 namespace Domain.Shared.Entities
 {
-    public class CreditCard : Identity<CreditCard, int>
+    public class CreditCard : Entity
     {
         public CreditCard()
         {

@@ -15,7 +15,7 @@ namespace Domain.MerchandiseContext
 
         public ICommandResult Handle(IncrementMerchandiseStockCommand command)
         {
-            var merchandise = _repository.GetById(command.BookId);
+            var merchandise = _repository.GetByBookId(command.BookId);
             string message = "";
 
             if (merchandise == null) {
@@ -38,7 +38,7 @@ namespace Domain.MerchandiseContext
 
         public ICommandResult Handle(DecrementMerchandiseStockCommand command)
         {
-            var merchandise = _repository.GetById(command.BookId);
+            var merchandise = _repository.GetByBookId(command.BookId);
 
             merchandise.Quantity -= command.Quantity;
             _repository.UpdateMerchandise(merchandise);
