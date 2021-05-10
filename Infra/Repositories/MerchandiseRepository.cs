@@ -40,8 +40,19 @@ namespace Infra
         public StockMerchandise UpdateMerchandise(StockMerchandise merchandise)
         {
             _context.Entry<StockMerchandise>(merchandise).State = EntityState.Modified;
-            _context.SaveChanges();
             return merchandise;
+        }
+
+        public StockMerchandise GetByBookId(int id)
+        {
+            return _context.StockMerchandises
+                .Include(m => m.Book)
+                .FirstOrDefault(StockMerchandiseQueries.GetByBookId(id));
+        }
+
+        public void SaveChanges()
+        {
+            _context.SaveChanges();
         }
     }
 }

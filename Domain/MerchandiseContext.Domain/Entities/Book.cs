@@ -28,6 +28,7 @@ namespace Domain.MerchandiseContext
             Active = active;
         }
 
+        public int Id { get => base.Id; set => base.Id = value; }
         public string Author { get; set; }
         public string Title { get; set; }
         public string Category { get; set; }

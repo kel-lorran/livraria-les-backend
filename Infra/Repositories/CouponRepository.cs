@@ -29,6 +29,14 @@ namespace Infra
             .ToList();
         }
 
+        public List<Coupon> GetByCodes(string[] corderArr)
+        {
+            return _context.Coupons
+            .AsNoTracking()
+            .Where(CouponQueries.GetByCodes(corderArr))
+            .ToList();
+        }
+
         public List<Coupon> GetByCustomerId(int id)
         {
             return _context.Coupons

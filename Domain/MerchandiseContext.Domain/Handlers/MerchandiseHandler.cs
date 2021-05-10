@@ -15,10 +15,11 @@ namespace Domain.MerchandiseContext
 
         public ICommandResult Handle(IncrementMerchandiseStockCommand command)
         {
-            var merchandise = _repository.GetById(command.BookId);
+            var merchandise = _repository.GetByBookId(command.BookId);
             string message = "";
 
-            if (merchandise == null) {
+            if (merchandise == null)
+            {
                 merchandise = new StockMerchandise(
                     command.Price,
                     command.Quantity,
@@ -27,9 +28,11 @@ namespace Domain.MerchandiseContext
 
                 _repository.CreateMerchandise(merchandise);
                 message = "Estoque de mercadoria criado com sucesso";
-            } else {
+            } else
+            {
                 merchandise.Quantity += command.Quantity;
                 _repository.UpdateMerchandise(merchandise);
+                _repository.SaveChanges();
                 message = "Estoque de mercadoria incrementado com sucesso";
             }
             
@@ -38,11 +41,11 @@ namespace Domain.MerchandiseContext
 
         public ICommandResult Handle(DecrementMerchandiseStockCommand command)
         {
-            var merchandise = _repository.GetById(command.BookId);
+            var merchandise = _repository.GetByBookId(command.BookId);
 
             merchandise.Quantity -= command.Quantity;
             _repository.UpdateMerchandise(merchandise);
-            
+            _repository.SaveChanges();
             return new GenericCommandResult(true, "Estoque de mercadoria decrementado com sucesso", merchandise);
         }
     }

@@ -28,6 +28,7 @@ namespace Domain.MerchandiseContext
             BillingAddress = billingAddress;
         }
 
+        public int Id { get => base.Id; set => base.Id = value; }
         public int CustomerId { get; set; }
         public List<OrderMerchandise> MerchandiseList { get; set; }
         public List<OrderMerchandise> ExchangedMerchandise { get => _exchangedMerchandise; set => _exchangedMerchandise = value; }

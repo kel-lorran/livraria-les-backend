@@ -17,6 +17,7 @@ namespace Domain.Shared.Entities
             Label = label;
         }
 
+        public int Id { get => base.Id; set => base.Id = value; }
         public string CreditCardCompany { get; set; }
         public string CardNumber { get; set; }
         public DateTime Validity { get; set; }

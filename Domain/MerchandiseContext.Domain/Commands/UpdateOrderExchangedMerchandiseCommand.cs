@@ -28,5 +28,17 @@ namespace Domain.MerchandiseContext
                 _exchangedMerchandise = value;
             }
         }
+
+        public Order Entity { get; private set; }
+
+        public void SetEntity (Order order) => Entity = order;
+
+        public Order MergeEntity(Order _order)
+        {
+            _order.ExchangedMerchandise = ExchangedMerchandise;
+
+            Entity = _order;
+            return _order;
+        }
     }
 }

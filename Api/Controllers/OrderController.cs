@@ -26,8 +26,92 @@ namespace Api
 
             if(customerId != command.CustomerId && role != "manager")
                 return Unauthorized();
+            try {
+                var result = (GenericCommandResult) handler.Handle(command);
+                if(result.Data == null)
+                    return BadRequest(result);
+                return Ok(result);
+            } catch(Exception e) {
+                System.Console.WriteLine(e.Message);
+                return BadRequest();
+            }  
+        }
+        [HttpPut]
+        [Authorize]
+         public async Task<ActionResult<GenericCommandResult>> CommitNewOrder(
+            [FromBody]CommitNewOrderCommand command,
+            [FromServices]OrderHandler handler,
+            [FromServices]IOrderRepository repository
+        )
+        {
+            var role = User.Claims.FirstOrDefault(x => x.Type.Equals(ClaimTypes.Role))?.Value;
+            var customerId = int.Parse(User.Claims.FirstOrDefault(x => x.Type.Equals(ClaimTypes.NameIdentifier))?.Value);
+
+            try {
+                var orderFromDb = repository.GetById(command.Id);
+
+                if(orderFromDb == null)
+                    return NotFound();
+                else
+                    command.MergeEntity(orderFromDb);
+
+                if(customerId != command.Entity.CustomerId && role != "manager")
+                    return Unauthorized();
+
+                var result = (GenericCommandResult) handler.Handle(command);
+                if(result.Data == null)
+                    return BadRequest(result);
+                    
+                return Ok(result);
+            } catch {
+                return BadRequest();
+            }  
+        }
+        [HttpPost]
+        [AllowAnonymous]
+        [Route("draft")]
+        public async Task<ActionResult<GenericCommandResult>> CreateDraft(
+            [FromBody]CreateDraftOrderCommand command,
+            [FromServices]OrderHandler handler
+        )
+        {
+            var customerId = User.Claims.FirstOrDefault(x => x.Type.Equals(ClaimTypes.NameIdentifier))?.Value;
+
+            if(customerId != null)
+                command.SetCustomerId(int.Parse(customerId));
             
-            var result = handler.Handle(command);
+            var result = (GenericCommandResult) handler.Handle(command);
+            if(!result.Success)
+                return BadRequest(result);
+            return Ok(result);
+        }
+        [HttpGet]
+        [AllowAnonymous]
+        [Route("draft/{id:int}")]
+         public async Task<ActionResult<Order>> GetDraftById(
+            int id,
+            [FromServices]IOrderRepository repository
+        )
+        {
+            return Ok(repository.GetDraftById(id));
+        }
+
+        [HttpPut]
+        [AllowAnonymous]
+        [Route("draft")]
+        public async Task<ActionResult<GenericCommandResult>> CreateDraft(
+            [FromBody]UpdateDraftOrderCommand command,
+            [FromServices]OrderHandler handler
+        )
+        {
+            var customerId = User.Claims.FirstOrDefault(x => x.Type.Equals(ClaimTypes.NameIdentifier))?.Value;
+
+            if(customerId != null)
+                command.SetCustomerId(int.Parse(customerId));
+            
+            var result = (GenericCommandResult) handler.Handle(command);
+            if(!result.Success)
+                return BadRequest(result);
             return Ok(result);
         }
         [HttpPut]
@@ -53,12 +137,31 @@ namespace Api
         public async Task<ActionResult<GenericCommandResult>> UpdateExchangedMerchandise(
             [FromBody]UpdateOrderExchangedMerchandiseCommand command,
             [FromServices]OrderHandler handler,
-            [FromServices]CouponHandler couponHandler
+            [FromServices]IOrderRepository repository
         )
         {
-            var result = handler.Handle(command);
+            var role = User.Claims.FirstOrDefault(x => x.Type.Equals(ClaimTypes.Role))?.Value;
+            var customerId = int.Parse(User.Claims.FirstOrDefault(x => x.Type.Equals(ClaimTypes.NameIdentifier))?.Value);
 
-            return Ok(result);
+            try {
+                var orderFromDb = repository.GetById(command.OrderId);
+
+                if(orderFromDb == null)
+                    return NotFound();
+                else
+                    command.MergeEntity(orderFromDb);
+
+                if(customerId != command.Entity.CustomerId && role != "manager")
+                    return Unauthorized();
+
+                var result = (GenericCommandResult) handler.Handle(command);
+                if(result.Data == null)
+                    return BadRequest(result);
+                    
+                return Ok(result);
+            } catch {
+                return BadRequest();
+            }  
         }
         [HttpGet]
         [Authorize]

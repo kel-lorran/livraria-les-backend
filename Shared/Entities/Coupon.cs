@@ -8,6 +8,11 @@ namespace Shared
         {
         }
 
+        public Coupon(string code)
+        {
+            Code = code;
+        }
+
         public Coupon(float value, string status, string type, string code, DateTime date)
         {
             Value = value;

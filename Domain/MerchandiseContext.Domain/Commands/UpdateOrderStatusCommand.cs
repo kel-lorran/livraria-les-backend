@@ -14,6 +14,7 @@ namespace Domain.MerchandiseContext
             Status = status;
         }
 
+        public bool ReturnStock { get; set; }
         public int OrderId { get; set; }
         public string Status { get; set; }
     }

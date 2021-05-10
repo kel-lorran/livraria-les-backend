@@ -23,6 +23,7 @@ namespace Domain.Shared.Entities
             this.AddressLabel = addressLabel;   
         }
 
+        public int Id { get => base.Id; set => base.Id = value; }
         public string HomeType { get; set; }
         public string PublicPlaceType { get; set; }
         public string PublicPlaceName { get; set; }

@@ -13,5 +13,10 @@ namespace Domain.MerchandiseContext
         {
             return x => x.CustomerId == id;
         }
+
+         public static Expression<Func<Order, bool>> GetDraftById(int id)
+        {
+            return x => x.Id == id && x.Status.Equals("rascunho");
+        }
     }
 }

@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infra.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20210426134512_Initial")]
+    [Migration("20210507182029_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -392,7 +392,8 @@ namespace Infra.Migrations
 
                     b.HasOne("Domain.MerchandiseContext.Order", null)
                         .WithMany("MerchandiseList")
-                        .HasForeignKey("OrderId1");
+                        .HasForeignKey("OrderId1")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.Navigation("Book");
                 });

@@ -27,6 +27,7 @@ namespace Infra
         {
             modelBuilder.ApplyConfiguration(new CustomerMap());
             modelBuilder.ApplyConfiguration(new StockMerchandiseMap());
+            modelBuilder.ApplyConfiguration(new OrderMerchandiseMap());
             modelBuilder.ApplyConfiguration(new OrderMap());
             modelBuilder.ApplyConfiguration(new AddressMap());
 

@@ -390,7 +390,8 @@ namespace Infra.Migrations
 
                     b.HasOne("Domain.MerchandiseContext.Order", null)
                         .WithMany("MerchandiseList")
-                        .HasForeignKey("OrderId1");
+                        .HasForeignKey("OrderId1")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.Navigation("Book");
                 });

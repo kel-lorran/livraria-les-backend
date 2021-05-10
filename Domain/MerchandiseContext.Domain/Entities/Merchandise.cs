@@ -15,6 +15,7 @@ namespace Domain.MerchandiseContext
             Book = book;
         }
 
+        public int Id { get => base.Id; set => base.Id = value; }
         public float Price { get; set; }
         public int Quantity { get; set; }
         [System.Text.Json.Serialization.JsonInclude]
