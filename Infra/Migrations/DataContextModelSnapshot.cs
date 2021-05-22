@@ -140,6 +140,9 @@ namespace Infra.Migrations
                     b.Property<float>("Discount")
                         .HasColumnType("real");
 
+                    b.Property<DateTime>("LastUpdate")
+                        .HasColumnType("datetime2");
+
                     b.Property<float>("ShippingPrice")
                         .HasColumnType("real");
 

@@ -6,6 +6,7 @@ namespace Domain.MerchandiseContext.Strategy
     public class UpdateOrderExchangedMerchandiseStrategy : IStrategy<Order, IOrderRepository>
     {
         private List<IStrategy<Order, IOrderRepository>> _strategyList = new List<IStrategy<Order, IOrderRepository>>(){
+            new ValidateExchangedMerchandiseQuantities()
         };
 
         public ICommandResult Execute(Order entity, IOrderRepository repository)

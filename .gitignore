@@ -373,3 +373,4 @@ About
 
 # utils - example payload, initial values...
 *.my_draft.*
+Infra/Migrations

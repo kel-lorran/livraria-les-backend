@@ -42,5 +42,6 @@ namespace Domain.MerchandiseContext
         public List<Coupon> CouponAppliedList { get => _couponAppliedList; set => _couponAppliedList = value; }
         public Address DeliveryAddress { get; set; }
         public Address BillingAddress { get; set; }
+        public DateTime LastUpdate { get; set; }
     }
 }
