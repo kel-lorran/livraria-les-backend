@@ -14,9 +14,14 @@ namespace Domain.MerchandiseContext
             return x => x.CustomerId == id;
         }
 
-         public static Expression<Func<Order, bool>> GetDraftById(int id)
+        public static Expression<Func<Order, bool>> GetDraftById(int id)
         {
             return x => x.Id == id && x.Status.Equals("rascunho");
+        }
+
+        public static Expression<Func<Order, bool>> GetByPeriod(DateTime initialDate, DateTime finalDate)
+        {
+            return x => (DateTime.Compare(x.Date, initialDate) >= 0) && (DateTime.Compare(x.Date, finalDate) <= 0);
         }
     }
 }

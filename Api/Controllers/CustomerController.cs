@@ -28,9 +28,8 @@ namespace Api
             {
                 var user = (User) userResult.Data;
                 command.SetUserId(user.Id);
-                var result = (GenericCommandResult) handler.Handle(command);
-                var customer = (Customer) result.Data;
-                return Ok(customer);
+                var result = handler.Handle(command);
+                return Ok(result);
             }
 
             return BadRequest(userResult);

@@ -15,12 +15,12 @@ namespace Domain.MerchandiseContext.Strategy
                 var couponAppliedListFromDb = repository.GetCoupons(codeArr);
 
                 var promotionalCoupon = couponAppliedListFromDb
-                    .Where(c => c.Type.Equals("promocional"))
+                    .Where(c => c.Type.Equals("promocional") && c.Status.Equals("valido"))
                     .OrderByDescending(c => c.Value)
                     .FirstOrDefault(c => true);
 
                 var couponAppliedListExchange = couponAppliedListFromDb
-                    .Where(c => c.Type.Equals("troca"))
+                    .Where(c => c.Type.Equals("troca") && c.Status.Equals("valido"))
                     .OrderBy(c => c.Value)
                     .ToList();
 

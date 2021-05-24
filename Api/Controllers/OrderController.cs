@@ -7,6 +7,7 @@ using Domain.MerchandiseContext;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Shared;
+using Shared.Utils;
 
 namespace Api
 {
@@ -175,6 +176,24 @@ namespace Api
             if(role == "manager")
                 return Ok(repository.GetAll());
             return Ok(repository.GetByCustomerId(customerId));
+        }
+        [HttpGet]
+        [Authorize(Roles = "manager")]
+        [Route("search")]
+        public async Task<ActionResult<List<Order>>> Search(
+            [FromQuery(Name = "searchtype")] string searchType,
+            [FromQuery(Name = "initialDate")] string initialDate,
+            [FromQuery(Name = "finalDate")] string finalDate,
+            [FromServices]IOrderRepository repository
+        )
+        {
+            if(searchType.Equals("chart-populate")) {
+                return Ok(repository.GetAllByPeriod(
+                    StringToDateTime.Convert(initialDate, "yyyy-MM-dd"),
+                    StringToDateTime.Convert(finalDate, "yyyy-MM-dd")
+                ));
+            }
+            return Ok();
         }
     }
 }

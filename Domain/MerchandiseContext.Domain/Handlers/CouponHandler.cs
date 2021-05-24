@@ -27,6 +27,7 @@ namespace Domain.MerchandiseContext
                 coupon.CustomerId = command.CustomerId;
 
             _repository.CreateCoupon(coupon);
+            _repository.SaveChanges();
             return new GenericCommandResult(true, "Cupom criado com sucesso", coupon);
         }
 
@@ -43,6 +44,7 @@ namespace Domain.MerchandiseContext
             coupon.CustomerId = command.CustomerId;
 
             _repository.CreateCoupon(coupon);
+            _repository.SaveChanges();
             return new GenericCommandResult(true, "Cupom de troca criado com sucesso", coupon);
         }
     }

@@ -3,7 +3,7 @@ using Shared;
 
 namespace Domain.MerchandiseContext
 {
-    public interface ICouponRepository
+    public interface ICouponRepository : IRepository
     {
         Coupon CreateCoupon(Coupon coupon);
         List<Coupon> GetAll();

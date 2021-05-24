@@ -165,5 +165,28 @@ namespace Infra
             var customer = customerRepository.GetById(customerId);
             return customer.AddressList;
         }
+
+        public Coupon CreateCouponInChange(Coupon coupon)
+        {
+            var couponRespository =  new CouponRepository(_context);
+            couponRespository.CreateCoupon(coupon);
+            return coupon;
+        }
+
+        public List<Order> GetAllByPeriod(DateTime initialDate, DateTime finalDate)
+        {
+            return _context.Orders
+            .Where(OrderQueries.GetByPeriod(initialDate, finalDate))
+            .Include(o => o.MerchandiseList)
+                .ThenInclude(m => m.Book)
+            .Include(o => o.ExchangedMerchandise)
+                .ThenInclude(m => m.Book)
+            .Include(o => o.CreditCardList)
+            .Include(o => o.CouponAppliedList)
+            .Include(o => o.DeliveryAddress)
+            .Include(o => o.BillingAddress)
+            .AsNoTracking()
+            .ToList();
+        }
     }
 }

@@ -6,7 +6,9 @@ namespace Domain.MerchandiseContext.Strategy
     public class CommitNewOrderStrategy : IStrategy<Order, IOrderRepository>
     {
         private List<IStrategy<Order, IOrderRepository>> _strategyList = new List<IStrategy<Order, IOrderRepository>>(){
-            new ValidateAddressesStrategy()
+            new ValidateAddressesStrategy(),
+            new DiscartAppliedCouponsStrategy(),
+            new ManagerRestStrategy()
         };
 
         public ICommandResult Execute(Order entity, IOrderRepository repository)

@@ -41,22 +41,18 @@ namespace Domain.CustomerContext
             //         prop.SetValue(customer, Convert.ChangeType(value, prop.PropertyType));
             //     }
             // }
-            if (Name != null)
+            if (Name != null && !customer.Name.Equals(Name))
                 customer.Name = Name;
-            if (LastName != null)
+            if (LastName != null && !customer.LastName.Equals(LastName))
                 customer.LastName = LastName;
-            if (Gender != null)
+            if (Gender != null && !customer.Gender.Equals(Gender))
                 customer.Gender = Gender;
-            if (CPF != null)
+            if (CPF != null && !customer.CPF.Equals(CPF))
                 customer.CPF = CPF;
             if (BirthDate != null)
                 customer.BirthDate = StringToDateTime.Convert(BirthDate);
-            if (Phone != null)
+            if (Phone != null && !customer.Phone.Equals(Phone))
                 customer.Phone = Phone;
-            if (Email != null)
-                customer.Email = Email;
-            if (Active != null)
-                customer.Active = (int) Active;
             
             return customer;
         }

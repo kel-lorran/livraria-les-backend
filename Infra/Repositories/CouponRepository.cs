@@ -18,7 +18,6 @@ namespace Infra
         public Coupon CreateCoupon(Coupon coupon)
         {
             _context.Coupons.Add(coupon);
-            _context.SaveChanges();
             return coupon;
         }
 
@@ -43,6 +42,11 @@ namespace Infra
             .AsNoTracking()
             .Where(CouponQueries.GetByCustomerId(id))
             .ToList();
+        }
+
+        public void SaveChanges()
+        {
+            _context.SaveChanges();
         }
     }
 }
