@@ -21,7 +21,10 @@ namespace Domain.MerchandiseContext
 
         public static Expression<Func<Order, bool>> GetByPeriod(DateTime initialDate, DateTime finalDate)
         {
-            return x => (DateTime.Compare(x.Date, initialDate) >= 0) && (DateTime.Compare(x.Date, finalDate) <= 0);
+            return x => (DateTime.Compare(x.Date, initialDate) >= 0)
+                && (DateTime.Compare(x.Date, finalDate) <= 0)
+                && !x.Status.Equals("rascunho")
+                && !x.Status.Equals("pré-visualização");
         }
     }
 }

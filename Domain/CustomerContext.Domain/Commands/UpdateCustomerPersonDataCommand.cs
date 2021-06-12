@@ -50,7 +50,7 @@ namespace Domain.CustomerContext
             if (CPF != null && !customer.CPF.Equals(CPF))
                 customer.CPF = CPF;
             if (BirthDate != null)
-                customer.BirthDate = StringToDateTime.Convert(BirthDate);
+                customer.BirthDate = StringToDateTime.Convert(BirthDate, "yyyy-MM-dd");
             if (Phone != null && !customer.Phone.Equals(Phone))
                 customer.Phone = Phone;
             

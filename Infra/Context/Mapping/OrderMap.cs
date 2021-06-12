@@ -18,6 +18,8 @@ namespace Infra
             // builder.HasOne(t => t.BillingAddress).WithOne().HasForeignKey<Address>("OrderForeignKey");
             // builder.HasOne(t => t.BillingAddress).WithOne().OnDelete(DeleteBehavior.Cascade);
             // builder.Property(o => o.LastUpdate).HasColumnType("timestamp()");
+            builder.HasMany(t => t.CreditCardList).WithOne().OnDelete(DeleteBehavior.SetNull);
+            builder.HasMany(t => t.CouponAppliedList).WithOne().OnDelete(DeleteBehavior.SetNull);
         }
     }
 }

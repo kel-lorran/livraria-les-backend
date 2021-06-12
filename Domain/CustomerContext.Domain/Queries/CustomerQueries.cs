@@ -19,5 +19,10 @@ namespace Domain.CustomerContext
         {
             return x => x.UserId == id;
         }
+
+        public static Expression<Func<Customer, bool>> GetByEmailOrCPF(string email, string cpf)
+        {
+            return x => x.Email == email && x.CPF == cpf;
+        }
     }
 }

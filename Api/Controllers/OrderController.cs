@@ -156,7 +156,7 @@ namespace Api
                     return Unauthorized();
 
                 var result = (GenericCommandResult) handler.Handle(command);
-                if(result.Data == null)
+                if(!result.Success)
                     return BadRequest(result);
                     
                 return Ok(result);
@@ -190,7 +190,7 @@ namespace Api
             if(searchType.Equals("chart-populate")) {
                 return Ok(repository.GetAllByPeriod(
                     StringToDateTime.Convert(initialDate, "yyyy-MM-dd"),
-                    StringToDateTime.Convert(finalDate, "yyyy-MM-dd")
+                    StringToDateTime.Convert(finalDate, "yyyy-MM-dd").AddHours(23.99)
                 ));
             }
             return Ok();

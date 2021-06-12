@@ -425,14 +425,16 @@ namespace Infra.Migrations
 
                     b.HasOne("Domain.MerchandiseContext.Order", null)
                         .WithMany("CreditCardList")
-                        .HasForeignKey("OrderId");
+                        .HasForeignKey("OrderId")
+                        .OnDelete(DeleteBehavior.SetNull);
                 });
 
             modelBuilder.Entity("Shared.Coupon", b =>
                 {
                     b.HasOne("Domain.MerchandiseContext.Order", null)
                         .WithMany("CouponAppliedList")
-                        .HasForeignKey("OrderId");
+                        .HasForeignKey("OrderId")
+                        .OnDelete(DeleteBehavior.SetNull);
                 });
 
             modelBuilder.Entity("Domain.CustomerContext.Customer", b =>

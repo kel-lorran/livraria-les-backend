@@ -20,6 +20,7 @@ using Infra;
 using Domain.UserContext;
 using Domain.CustomerContext;
 using Domain.MerchandiseContext;
+using Shared;
 
 namespace Api
 {
@@ -64,6 +65,9 @@ namespace Api
 
             services.AddTransient<ICouponRepository, CouponRepository>();
             services.AddTransient<CouponHandler, CouponHandler>();
+
+            services.AddTransient<ICategoryRepository, CategoryRepository>();
+            services.AddTransient<IPriceGroupRepository, PriceGroupRepository>();
 
             var key = Encoding.ASCII.GetBytes(Secret.SecretKey);
 

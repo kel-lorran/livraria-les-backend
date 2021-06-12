@@ -11,7 +11,7 @@ namespace Domain.MerchandiseContext.Strategy
             entity.ExchangedMerchandise.ForEach(em => {
                 var quantity = entity.MerchandiseList.FirstOrDefault(m => m.Book.Id == em.Book.Id)?.Quantity;
                 if (quantity != null)
-                    result &= quantity <= em.Quantity;
+                    result &= quantity >= em.Quantity;
                 else 
                     result = false;
             });

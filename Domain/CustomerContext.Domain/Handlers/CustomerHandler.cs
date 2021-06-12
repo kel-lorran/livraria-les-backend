@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Domain.CustomerContext.Strategy;
 using Domain.Shared.Entities;
 using Shared;
 using Shared.Utils;
@@ -9,7 +10,8 @@ namespace Domain.CustomerContext
         IHandler<CreateCustomerCommand>,
         IHandler<UpdateCustomerPersonDataCommand>,
         IHandler<CreateCustomerAddresCommand>,
-        IHandler<CreateCustomerCreditCardCommand>
+        IHandler<CreateCustomerCreditCardCommand>,
+        IHandler<RemoveCustomerAddresCommand>
     {
         private readonly ICustomerRepository _repository;
 
@@ -40,14 +42,21 @@ namespace Domain.CustomerContext
                 command.LastName,
                 command.Gender,
                 command.CPF,
-                StringToDateTime.Convert(command.BirthDate),
+                StringToDateTime.Convert(command.BirthDate, "yyyy-MM-dd"),
                 command.Phone,
                 command.Email,
                 command.Active,
                 new List<Address>{address}
             );
 
+            var strategy = new CreateCustomerStrategy();
+            var strategyResult = (GenericCommandResult) strategy.Execute(customer, _repository);
+
+            if(!strategyResult.Success)
+                return strategyResult; 
+
             _repository.CreateCustomer(customer);
+            _repository.SaveChanges();
             return new GenericCommandResult(true, "Sucesso no registro do cliente", customer);
         }
 
@@ -56,6 +65,7 @@ namespace Domain.CustomerContext
             var customer = _repository.GetByEmail(command.Email);
             command.MergeEntity(customer);
             _repository.UpdateCustomer(customer);
+            _repository.SaveChanges();
             return new GenericCommandResult(true, "Sucesso na atualização do registro do cliente", customer);
         }
 
@@ -82,6 +92,7 @@ namespace Domain.CustomerContext
 
             customer.AddressList.Add(address);
             _repository.UpdateCustomerAddressList(customer);
+            _repository.SaveChanges();
 
             return new GenericCommandResult(true, "Endereço adicionado com sucesso", customer);
         }
@@ -102,8 +113,24 @@ namespace Domain.CustomerContext
 
             customer.CreditCardList.Add(creditCard);
             _repository.UpdateCustomerCreditCardList(customer);
+            _repository.SaveChanges();
 
             return new GenericCommandResult(true, "Cartão adicionado com sucesso", customer);
+        }
+
+        public ICommandResult Handle(RemoveCustomerAddresCommand command)
+        {
+            var customer = _repository.GetById(command.CustomerId);
+
+            if(customer == null)
+                return new GenericCommandResult(false, "Cliente não encontrado", null);
+
+            command.MergeEntity(customer);
+
+            _repository.UpdateCustomerCreditCardList(customer);
+            _repository.SaveChanges();
+
+            return new GenericCommandResult(true, "Endereço(s) removidos com sucesso", customer);
         }
     }
 }

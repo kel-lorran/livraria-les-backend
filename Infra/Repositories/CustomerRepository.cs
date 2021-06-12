@@ -17,14 +17,12 @@ namespace Infra
         public Customer CreateCustomer(Customer customer)
         {
             _context.Customers.Add(customer);
-            _context.SaveChanges();
             return customer;
         }
 
         public Customer UpdateCustomer(Customer customer)
         {
             _context.Entry<Customer>(customer).State = EntityState.Modified;
-            _context.SaveChanges();
             return customer;
         }
 
@@ -48,7 +46,6 @@ namespace Infra
         public Customer UpdateCustomerAddressList(Customer customer)
         {
             _context.Entry<Customer>(customer).State = EntityState.Modified;
-            _context.SaveChanges();
             return customer;
         }
 
@@ -64,7 +61,6 @@ namespace Infra
         public Customer UpdateCustomerCreditCardList(Customer customer)
         {
             _context.Entry<Customer>(customer).State = EntityState.Modified;
-            _context.SaveChanges();
             return customer;
         }
 
@@ -74,6 +70,19 @@ namespace Infra
                 .Include(c => c.AddressList)
                 .Include(c => c.CreditCardList)
                 .FirstOrDefault(CustomerQueries.GetByUserId(id));
+        }
+
+        public Customer GetByEmailOrCPF(string email, string cpf)
+        {
+               return _context.Customers
+                .Include(c => c.AddressList)
+                .Include(c => c.CreditCardList)
+                .FirstOrDefault(CustomerQueries.GetByEmailOrCPF(email, cpf));
+        }
+
+        public void SaveChanges()
+        {
+            _context.SaveChanges();
         }
     }
 }

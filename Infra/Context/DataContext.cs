@@ -22,6 +22,8 @@ namespace Infra
         public DbSet<OrderMerchandise> OrderMerchandises { get; private set; }
         public DbSet<Order> Orders { get; private set; }
         public DbSet<Coupon> Coupons { get; private set; }
+        public DbSet<Category> Categories { get; private set; }
+        public DbSet<PriceGroup> PriceGroups { get; private set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

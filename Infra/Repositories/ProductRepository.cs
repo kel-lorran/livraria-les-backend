@@ -1,5 +1,7 @@
+using System.Collections.Generic;
 using System.Linq;
 using Domain.MerchandiseContext;
+using Microsoft.EntityFrameworkCore;
 
 namespace Infra
 {
@@ -17,6 +19,22 @@ namespace Infra
             _context.Books.Add(book);
             _context.SaveChanges();
             return book;
+        }
+
+        public List<Book> GetAllActive()
+        {
+            return _context.Books
+                .Where(BookQueries.GetAllActive())
+                .AsNoTracking()
+                .ToList();
+        }
+
+        public List<Book> GetAllInactive()
+        {
+            return _context.Books
+                .Where(BookQueries.GetAllInactive())
+                .AsNoTracking()
+                .ToList();
         }
 
         public Book GetById(int id)

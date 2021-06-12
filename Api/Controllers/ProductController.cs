@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Domain.MerchandiseContext;
 using Microsoft.AspNetCore.Authorization;
@@ -19,6 +20,24 @@ namespace Api
         {
             var result = handler.Handle(command);
             return Ok(result);
+        }
+        [HttpGet]
+        [Authorize(Roles = "manager")]
+        [Route("active")]
+        public async Task<ActionResult<List<Book>>> GetAllActive(
+            [FromServices]IProductRepository repository
+        )
+        {
+            return repository.GetAllActive();
+        }
+        [HttpGet]
+        [Authorize(Roles = "manager")]
+        [Route("inactive")]
+        public async Task<ActionResult<List<Book>>> GetAllInactive(
+            [FromServices]IProductRepository repository
+        )
+        {
+            return repository.GetAllInactive();
         }
     }
 }

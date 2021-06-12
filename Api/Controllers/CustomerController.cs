@@ -24,7 +24,7 @@ namespace Api
         {
             var userResult = (GenericCommandResult) userHandler.Handle(new CreateUserCommand(command.Email, command.Password, "customer"));
 
-            if (userResult.Data != null)
+            if (userResult.Success)
             {
                 var user = (User) userResult.Data;
                 command.SetUserId(user.Id);
@@ -86,7 +86,31 @@ namespace Api
             var role = User.Claims.FirstOrDefault(x => x.Type.Equals(ClaimTypes.Role))?.Value;
             var customerId = int.Parse(User.Claims.FirstOrDefault(x => x.Type.Equals(ClaimTypes.NameIdentifier))?.Value);
 
-            if(customerId == 0)
+            if(command.CustomerId == 0)
+                command.CustomerId = customerId;
+
+            if(customerId != command.CustomerId && role != "manager")
+                return Unauthorized();
+            
+            var result = (GenericCommandResult) handler.Handle(command);
+
+            if(result.Data == null)
+                return NotFound(result);
+            
+            return Ok(result);
+        }
+        [HttpDelete]
+        [Route("remove-address")]
+        [Authorize]
+         public async Task<ActionResult<GenericCommandResult>> removeAddress (
+            [FromBody]RemoveCustomerAddresCommand command,
+            [FromServices]CustomerHandler handler
+        )
+        {
+            var role = User.Claims.FirstOrDefault(x => x.Type.Equals(ClaimTypes.Role))?.Value;
+            var customerId = int.Parse(User.Claims.FirstOrDefault(x => x.Type.Equals(ClaimTypes.NameIdentifier))?.Value);
+
+            if(command.CustomerId == 0)
                 command.CustomerId = customerId;
 
             if(customerId != command.CustomerId && role != "manager")
