@@ -2,22 +2,24 @@ using Shared;
 
 namespace Domain.MerchandiseContext
 {
-    public class DecrementMerchandiseStockCommand : ICommand
+    public class IncrementMerchandiseStockCommand : ICommand
     {
-        public DecrementMerchandiseStockCommand()
+        public IncrementMerchandiseStockCommand()
         {
         }
 
-        public DecrementMerchandiseStockCommand(float price, int quantity, int bookId)
+        public IncrementMerchandiseStockCommand(float price, float priceSeller, int quantity, int bookId)
         {
             Price = price;
             Quantity = quantity;
             BookId = bookId;
+            PriceSeller = priceSeller;
         }
 
         public float Price { get; set; }
         public int Quantity { get; set; }
         public int BookId { get; set; }
+        public float PriceSeller { get; set; }
 
         public Book Book { get; private set; }
 

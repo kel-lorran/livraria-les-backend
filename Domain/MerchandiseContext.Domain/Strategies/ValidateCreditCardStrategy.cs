@@ -14,12 +14,12 @@ namespace Domain.MerchandiseContext.Strategy
             var creditCardListFromDb = repository.GetCards(cardIdArr, entity.CustomerId);
 
             if (creditCardListFromDb.Count > 0)
-                result.Add(creditCardListFromDb.First());
+                result.Add(new CreditCard(creditCardListFromDb.First()));
             else
                 return new GenericCommandResult(false, "Nenhum cartão de credito confere com os do cliente já cadastrados");
 
             if  (entity.Total < 20 && creditCardListFromDb.Count > 1)
-                result.Add(creditCardListFromDb.ElementAt(1));
+                result.Add(new CreditCard(creditCardListFromDb.ElementAt(1)));
 
             entity.CreditCardList = result;
             return new GenericCommandResult(true, "Lista de coupon atualizada segundo o banco de dados");

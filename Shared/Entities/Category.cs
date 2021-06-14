@@ -6,6 +6,11 @@ namespace Shared
         {
         }
 
+        public Category(int id) 
+        {
+            base.Id = id;
+        }
+
         public Category(string name, string description)
         {
             Name = name;

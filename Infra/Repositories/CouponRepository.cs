@@ -3,6 +3,7 @@ using System.Linq;
 using Domain.MerchandiseContext;
 using Microsoft.EntityFrameworkCore;
 using Shared;
+using Shared.Utils;
 
 namespace Infra
 {
@@ -47,6 +48,35 @@ namespace Infra
         public void SaveChanges()
         {
             _context.SaveChanges();
+        }
+
+        public List<Coupon> Search(
+            float value,
+            string status,
+            string type,
+            string code,
+            string date,
+            int customerId
+        )
+        {
+            IQueryable<Coupon> result = _context.Coupons;
+
+            if (value != 0)
+                result = result.Where(c => c.Value == value);
+            if (status != null)
+                result = result.Where(c => c.Status.Contains(status));
+            if (type != null)
+                result = result.Where(c => c.Type.Contains(type));
+             if (code != null)
+                result = result.Where(c => c.Code.Contains(code));
+            if (date != null)
+                result = result.Where(c => c.Date.Equals(StringToDateTime.Convert(date, "yyyy-MM-dd")));
+            if (customerId != 0)
+                result = result.Where(c => c.CustomerId == customerId);   
+                
+            return result
+                .AsNoTracking()
+                .ToList();
         }
     }
 }

@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Domain.CustomerContext;
 using Microsoft.EntityFrameworkCore;
+using Shared.Utils;
 
 namespace Infra
 {
@@ -83,6 +84,43 @@ namespace Infra
         public void SaveChanges()
         {
             _context.SaveChanges();
+        }
+
+        public List<Customer> Search(
+            string name,
+            string lastName,
+            string gender,
+            string cpf,
+            string birthDate,
+            string phone,
+            string email,
+            int? active
+        )
+        {
+            IQueryable<Customer> result = _context.Customers;
+
+            if (name != null)
+                result = result.Where(c => c.Name.Contains(name));
+            if (lastName != null)
+                result = result.Where(c => c.LastName.Contains(lastName));
+            if (gender != null)
+                result = result.Where(c => c.Gender.Equals(gender));
+            if (cpf != null)
+                result = result.Where(c => c.CPF.Equals(cpf));
+            if (birthDate != null)
+                result = result.Where(c => c.BirthDate.Equals(StringToDateTime.Convert(birthDate, "yyyy-MM-dd")));
+            if (phone != null)
+                result = result.Where(c => c.Phone.Contains(phone));
+            if (email != null)
+                result = result.Where(c => c.Email.Contains(email));
+            if (active != null)
+                result = result.Where(c => c.Active == active);      
+                
+            return result
+                .Include(c => c.AddressList)
+                .Include(c => c.CreditCardList)
+                .AsNoTracking()
+                .ToList();
         }
     }
 }

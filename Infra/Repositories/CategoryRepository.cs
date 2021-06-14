@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using Shared;
+using Shared.Queries;
 
 namespace Infra
 {
@@ -24,6 +25,13 @@ namespace Infra
                 .Include(c => c.Parent)
                 .AsNoTracking()
                 .ToList();
+        }
+
+        public Category GetById(int id)
+        {
+            return _context.Categories
+                .Include(c => c.Parent)
+                .FirstOrDefault(CategoryQueries.GetById(id));
         }
 
         public void SaveChanges()

@@ -37,5 +37,6 @@ namespace Domain.CustomerContext
         public int Active { get; set; }
         public List<Address> AddressList { get; set; }
         public List<CreditCard> CreditCardList { get => _creditCardList; set => _creditCardList = value; }
+        public string InativationMessage { get; set; }
     }
 }

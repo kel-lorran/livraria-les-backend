@@ -41,6 +41,9 @@ namespace Infra.Migrations
                     b.Property<string>("Gender")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("InativationMessage")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("LastName")
                         .HasColumnType("nvarchar(max)");
 
@@ -71,8 +74,8 @@ namespace Infra.Migrations
                     b.Property<string>("Author")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Category")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int?>("CategoryId")
+                        .HasColumnType("int");
 
                     b.Property<string>("CodeBar")
                         .HasColumnType("nvarchar(max)");
@@ -86,13 +89,16 @@ namespace Infra.Migrations
                     b.Property<string>("ISBN")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("InativationMessage")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int>("Length")
                         .HasColumnType("int");
 
                     b.Property<int>("PageNumber")
                         .HasColumnType("int");
 
-                    b.Property<int>("PricingGroup")
+                    b.Property<int?>("PricingGroupId")
                         .HasColumnType("int");
 
                     b.Property<string>("Publishing")
@@ -114,6 +120,10 @@ namespace Infra.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CategoryId");
+
+                    b.HasIndex("PricingGroupId");
 
                     b.ToTable("Books");
                 });
@@ -200,6 +210,24 @@ namespace Infra.Migrations
                     b.ToTable("OrderMerchandises");
                 });
 
+            modelBuilder.Entity("Domain.MerchandiseContext.PriceGroup", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<float>("MinProfit")
+                        .HasColumnType("real");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("PriceGroups");
+                });
+
             modelBuilder.Entity("Domain.MerchandiseContext.StockMerchandise", b =>
                 {
                     b.Property<int>("Id")
@@ -211,6 +239,9 @@ namespace Infra.Migrations
                         .HasColumnType("int");
 
                     b.Property<float>("Price")
+                        .HasColumnType("real");
+
+                    b.Property<float>("PriceSeller")
                         .HasColumnType("real");
 
                     b.Property<int>("Quantity")
@@ -331,6 +362,29 @@ namespace Infra.Migrations
                     b.ToTable("Users");
                 });
 
+            modelBuilder.Entity("Shared.Category", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("ParentId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ParentId");
+
+                    b.ToTable("Categories");
+                });
+
             modelBuilder.Entity("Shared.Coupon", b =>
                 {
                     b.Property<int>("Id")
@@ -364,6 +418,21 @@ namespace Infra.Migrations
                     b.HasIndex("OrderId");
 
                     b.ToTable("Coupons");
+                });
+
+            modelBuilder.Entity("Domain.MerchandiseContext.Book", b =>
+                {
+                    b.HasOne("Shared.Category", "Category")
+                        .WithMany()
+                        .HasForeignKey("CategoryId");
+
+                    b.HasOne("Domain.MerchandiseContext.PriceGroup", "PricingGroup")
+                        .WithMany()
+                        .HasForeignKey("PricingGroupId");
+
+                    b.Navigation("Category");
+
+                    b.Navigation("PricingGroup");
                 });
 
             modelBuilder.Entity("Domain.MerchandiseContext.Order", b =>
@@ -427,6 +496,15 @@ namespace Infra.Migrations
                         .WithMany("CreditCardList")
                         .HasForeignKey("OrderId")
                         .OnDelete(DeleteBehavior.SetNull);
+                });
+
+            modelBuilder.Entity("Shared.Category", b =>
+                {
+                    b.HasOne("Shared.Category", "Parent")
+                        .WithMany()
+                        .HasForeignKey("ParentId");
+
+                    b.Navigation("Parent");
                 });
 
             modelBuilder.Entity("Shared.Coupon", b =>

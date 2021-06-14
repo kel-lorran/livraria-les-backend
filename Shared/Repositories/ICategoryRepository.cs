@@ -6,5 +6,6 @@ namespace Shared
     {
        void CreateManyCategory(List<Category> categories);
        List<Category> getAll();
+       Category GetById(int id);
     }
 }

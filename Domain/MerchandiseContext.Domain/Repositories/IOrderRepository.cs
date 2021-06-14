@@ -23,5 +23,6 @@ namespace Domain.MerchandiseContext
         List<OrderMerchandise> ComplementMerchandiseList(List<OrderMerchandise> merchandiseList, int orderId = 0);
 
         Coupon CreateCouponInChange(Coupon coupon);
+        List<Order> Search(string status, string date);
     }
 }

@@ -8,6 +8,21 @@ namespace Domain.Shared.Entities
         {
         }
 
+        public Address(Address address) 
+        {
+            this.HomeType = address.HomeType;
+            this.PublicPlaceType = address.PublicPlaceType;
+            this.PublicPlaceName = address.PublicPlaceName;
+            this.HomeNumber = address.HomeNumber;
+            this.CEP = address.CEP;
+            this.Neighborhood = address.Neighborhood;
+            this.City = address.City;
+            this.State = address.State;
+            this.Country = address.Country;
+            this.Complement = address.Complement;
+            this.AddressLabel = address.AddressLabel; 
+        }
+
         public Address(string homeType, string publicPlaceType, string publicPlaceName, string homeNumber, string cEP, string neighborhood, string city, string state, string country, string complement, string addressLabel) 
         {
             this.HomeType = homeType;

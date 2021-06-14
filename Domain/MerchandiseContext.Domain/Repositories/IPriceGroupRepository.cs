@@ -7,5 +7,6 @@ namespace Domain.MerchandiseContext
     {
         void CreateManyPriceGroup(List<PriceGroup> prices);
         List<PriceGroup> GetAll();
+        PriceGroup GetById(int id);
     }
 }

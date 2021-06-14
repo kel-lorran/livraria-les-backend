@@ -1,4 +1,5 @@
 using System.Linq;
+using Domain.Shared.Entities;
 using Shared;
 
 namespace Domain.MerchandiseContext.Strategy
@@ -21,8 +22,8 @@ namespace Domain.MerchandiseContext.Strategy
             {
                 // deliveryAddress.Id = 0;
                 // billingAddress.Id = 0;
-                entity.DeliveryAddress = deliveryAddress;
-                entity.BillingAddress = billingAddress;
+                entity.DeliveryAddress = new Address(deliveryAddress);
+                entity.BillingAddress = new Address(billingAddress);
                 return new GenericCommandResult(true, "Sucesso na validação de endereços");
             }
             return new GenericCommandResult(false, "Endereço utilizado não consta lista de endereços do usuario");

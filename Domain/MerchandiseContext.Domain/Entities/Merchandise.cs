@@ -2,7 +2,7 @@ using Shared;
 
 namespace Domain.MerchandiseContext
 {
-    public abstract class  Merchandise : Identity<Book, int>
+    public abstract class  Merchandise : Identity<Merchandise, int>
     {
         public Merchandise()
         {

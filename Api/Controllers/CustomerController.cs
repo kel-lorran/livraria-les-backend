@@ -22,12 +22,18 @@ namespace Api
             [FromServices]UserHandler userHandler
         )
         {
+            var validationResult = command.Validate();
+            if (!validationResult.Success)
+                return BadRequest(validationResult);
+                
             var userResult = (GenericCommandResult) userHandler.Handle(new CreateUserCommand(command.Email, command.Password, "customer"));
 
             if (userResult.Success)
             {
                 var user = (User) userResult.Data;
                 command.SetUserId(user.Id);
+
+
                 var result = handler.Handle(command);
                 return Ok(result);
             }
@@ -43,7 +49,16 @@ namespace Api
         {
             return repository.GetAll();
         }
-
+        [HttpGet]
+        [Authorize(Roles = "manager")]
+        [Route("{id:int}")]
+        public async Task<ActionResult<Customer>> GetById(
+            [FromServices]ICustomerRepository repository,
+            int id
+        )
+        {
+            return repository.GetById(id);
+        }
         [HttpGet]
         [Route("own-profile")]
         [Authorize]
@@ -57,21 +72,74 @@ namespace Api
                 return Ok(customer);
             return NotFound();
         }
+        [HttpGet]
+        [Route("search")]
+        [Authorize(Roles = "manager")]
+        public async Task<ActionResult<List<Customer>>> Search(
+            [FromServices]ICustomerRepository repository,
+            [FromQuery]string name,
+            [FromQuery]string lastName,
+            [FromQuery]string gender,
+            [FromQuery]string cpf,
+            [FromQuery]string birthDate,
+            [FromQuery]string phone,
+            [FromQuery]string email,
+            [FromQuery]int? active
+        )
+        {
+            return repository.Search(
+                name,
+                lastName,
+                gender,
+                cpf,
+                birthDate,
+                phone,
+                email,
+                active
+            );
+        }
 
         [HttpPut]
         [Route("person-data")]
         [Authorize]
         public async Task<ActionResult<GenericCommandResult>> UpdatePersonData (
             [FromBody]UpdateCustomerPersonDataCommand command,
-            [FromServices]CustomerHandler handler
+            [FromServices]CustomerHandler handler,
+            [FromServices]ICustomerRepository repository
         )
         {
             var email = User.Claims.FirstOrDefault(x => x.Type.Equals(ClaimTypes.Email))?.Value;
             var role = User.Claims.FirstOrDefault(x => x.Type.Equals(ClaimTypes.Role))?.Value;
 
+            var customer = repository.GetByEmail(command.Email);
+            command.MergeEntity(customer);
+
             if(email != command.Email && role != "manager")
                 return Unauthorized();
+
+            var validationResult = command.Validate();
+            if (!validationResult.Success)
+                return BadRequest(validationResult);
             
+            var result = handler.Handle(command);
+            return Ok(result);
+        }
+        [HttpPut]
+        [Authorize(Roles = "manager")]
+        [Route("status/{id:int}")]
+        public async Task<ActionResult<GenericCommandResult>> Update(
+            [FromBody]UpdateStatusCustomerCommand command,
+            [FromServices]CustomerHandler handler,
+            [FromServices]ICustomerRepository repository,
+            int id
+        )
+        {
+            var book = repository.GetById(id);
+            if (book == null)
+                return BadRequest();
+
+            command.MergeEntity(book);
+
             var result = handler.Handle(command);
             return Ok(result);
         }
@@ -91,6 +159,10 @@ namespace Api
 
             if(customerId != command.CustomerId && role != "manager")
                 return Unauthorized();
+
+            var validationResult = command.Validate();
+            if (!validationResult.Success)
+                return BadRequest(validationResult);
             
             var result = (GenericCommandResult) handler.Handle(command);
 
@@ -139,6 +211,10 @@ namespace Api
 
             if(customerId != command.CustomerId && role != "manager")
                 return Unauthorized();
+
+            var validationResult = command.Validate();
+            if (!validationResult.Success)
+                return BadRequest(validationResult);
             
             var result = (GenericCommandResult) handler.Handle(command);
 

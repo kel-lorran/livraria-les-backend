@@ -184,6 +184,8 @@ namespace Api
             [FromQuery(Name = "searchtype")] string searchType,
             [FromQuery(Name = "initialDate")] string initialDate,
             [FromQuery(Name = "finalDate")] string finalDate,
+            [FromQuery]string status,
+            [FromQuery]string date,
             [FromServices]IOrderRepository repository
         )
         {
@@ -193,7 +195,13 @@ namespace Api
                     StringToDateTime.Convert(finalDate, "yyyy-MM-dd").AddHours(23.99)
                 ));
             }
-            return Ok();
+            if(searchType.Equals("default")) {
+                return Ok(repository.Search(
+                    status,
+                    date
+                ));
+            }
+            return BadRequest();
         }
     }
 }

@@ -16,37 +16,45 @@ namespace Domain.MerchandiseContext
         public ICommandResult Handle(IncrementMerchandiseStockCommand command)
         {
             var merchandise = _repository.GetByBookId(command.BookId);
-            string message = "";
+            string message = "Falha no incremento do estoque verifique o preço de venda pois pode estar inadequado";
+            bool insertStatus = true;
 
             if (merchandise == null)
             {
-                merchandise = new StockMerchandise(
-                    command.Price,
-                    command.Quantity,
-                    command.Book
-                );
+                merchandise = new StockMerchandise();
+                merchandise.Book = command.Book;
+                
+                insertStatus = merchandise.Increment(command.Price, command.Quantity, command.PriceSeller);
 
-                _repository.CreateMerchandise(merchandise);
-                message = "Estoque de mercadoria criado com sucesso";
+                if(insertStatus) {
+                    _repository.CreateMerchandise(merchandise);
+                    message = "Estoque de mercadoria criado com sucesso";
+                }
             } else
             {
-                merchandise.Quantity += command.Quantity;
-                _repository.UpdateMerchandise(merchandise);
-                _repository.SaveChanges();
-                message = "Estoque de mercadoria incrementado com sucesso";
+                insertStatus = merchandise.Increment(command.Price, command.Quantity, command.PriceSeller);
+
+                if(insertStatus) {
+                    _repository.UpdateMerchandise(merchandise);
+                    message = "Estoque de mercadoria incrementado com sucesso";
+                }
             }
             
-            return new GenericCommandResult(true, message, merchandise);
+            _repository.SaveChanges();
+            return new GenericCommandResult(insertStatus, message, merchandise);
         }
 
         public ICommandResult Handle(DecrementMerchandiseStockCommand command)
         {
             var merchandise = _repository.GetByBookId(command.BookId);
+            string message = "Falha no decremento de mercadoria, verifique a quantidade pois pode estar incoerente com o estoque atual";
+            bool insertStatus = true;
 
-            merchandise.Quantity -= command.Quantity;
+            insertStatus = merchandise.Decrement(command.Quantity);
+
             _repository.UpdateMerchandise(merchandise);
             _repository.SaveChanges();
-            return new GenericCommandResult(true, "Estoque de mercadoria decrementado com sucesso", merchandise);
+            return new GenericCommandResult(insertStatus, message, merchandise);
         }
     }
 }

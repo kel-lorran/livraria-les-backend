@@ -25,6 +25,12 @@ namespace Infra
                 .ToList();
         }
 
+        public PriceGroup GetById(int id)
+        {
+            return _context.PriceGroups
+                .FirstOrDefault(PriceGroupQueries.GetById(id));
+        }
+
         public void SaveChanges()
         {
             _context.SaveChanges();

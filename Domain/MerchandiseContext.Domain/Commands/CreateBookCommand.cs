@@ -8,7 +8,7 @@ namespace Domain.MerchandiseContext
         {
         }
 
-        public CreateBookCommand(string author, string title, string category, string publishing, string edition, string iSBN, string codeBar, int year, int pageNumber, string synopsis, int height, int width, int length, int weight, int pricingGroup)
+        public CreateBookCommand(string author, string title, int category, string publishing, string edition, string iSBN, string codeBar, int year, int pageNumber, string synopsis, int height, int width, int length, int weight, int pricingGroup)
         {
             Author = author;
             Title = title;
@@ -29,7 +29,7 @@ namespace Domain.MerchandiseContext
 
         public string Author { get; set; }
         public string Title { get; set; }
-        public string Category { get; set; }
+        public int Category { get; set; }
         public string Publishing { get; set; }
         public string Edition { get; set; }
         public string ISBN { get; set; }

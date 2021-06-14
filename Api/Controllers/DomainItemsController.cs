@@ -94,7 +94,7 @@ namespace Api
         }
         [HttpGet]
         [Route("category")]
-        [Authorize(Roles = "manager")]
+        [AllowAnonymous]
         public async Task<ActionResult<List<Category>>> GetAllCategories (
             [FromServices]ICategoryRepository categoryRepository
         )

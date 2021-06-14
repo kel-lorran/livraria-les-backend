@@ -11,7 +11,8 @@ namespace Domain.CustomerContext
         IHandler<UpdateCustomerPersonDataCommand>,
         IHandler<CreateCustomerAddresCommand>,
         IHandler<CreateCustomerCreditCardCommand>,
-        IHandler<RemoveCustomerAddresCommand>
+        IHandler<RemoveCustomerAddresCommand>,
+        IHandler<UpdateStatusCustomerCommand>
     {
         private readonly ICustomerRepository _repository;
 
@@ -62,8 +63,7 @@ namespace Domain.CustomerContext
 
         public ICommandResult Handle(UpdateCustomerPersonDataCommand command)
         {
-            var customer = _repository.GetByEmail(command.Email);
-            command.MergeEntity(customer);
+            var customer = command.Entity;
             _repository.UpdateCustomer(customer);
             _repository.SaveChanges();
             return new GenericCommandResult(true, "Sucesso na atualização do registro do cliente", customer);
@@ -131,6 +131,15 @@ namespace Domain.CustomerContext
             _repository.SaveChanges();
 
             return new GenericCommandResult(true, "Endereço(s) removidos com sucesso", customer);
+        }
+
+        public ICommandResult Handle(UpdateStatusCustomerCommand command)
+        {
+            var customer = command.Entity;
+
+            _repository.UpdateCustomer(customer);
+            _repository.SaveChanges();
+            return new GenericCommandResult(true, "Sucesso na atualização do registro do cliente", customer);
         }
     }
 }

@@ -1,8 +1,9 @@
 using Shared;
+using Shared.Utils;
 
 namespace Domain.CustomerContext
 {
-    public class CreateCustomerAddresCommand : ICommand
+    public class CreateCustomerAddresCommand : ICommandWithValidation
     {
         public CreateCustomerAddresCommand() 
         {      
@@ -36,5 +37,54 @@ namespace Domain.CustomerContext
         public string Complement { get; set; }
         public string AddressLabel { get; set; }
         public int CustomerId { get; set; }
+
+        public GenericCommandResult Validate()
+        {
+            var result = true;
+            var message = "";
+
+            if (!TextValidator.Validity(HomeType)) {
+                result = false;
+                message += "HomeType is required\n";
+            }
+            if (!TextValidator.Validity(PublicPlaceType)) {
+                result = false;
+                message += "PublicPlaceType is required\n";
+            }
+            if (!TextValidator.Validity(PublicPlaceName)) {
+                result = false;
+                message += "PublicPlaceName is required\n";
+            }
+            if (!TextValidator.Validity(HomeNumber, @"(?=.*\d).{1,}")) {
+                result = false;
+                message += "HomeNumber is required\n";
+            }
+            if (!TextValidator.Validity(CEP, @"(\d{8})|(\d{5}-\d{3})", @"\D")) {
+                result = false;
+                message += "CEP is required, allow \\d{8} or 00000-000 \n";
+            }
+            if (!TextValidator.Validity(Neighborhood)) {
+                result = false;
+                message += "Neighborhood is required\n";
+            }
+            if (!TextValidator.Validity(City)) {
+                result = false;
+                message += "City is required\n";
+            }
+            if (!TextValidator.Validity(State)) {
+                result = false;
+                message += "State is required\n";
+            }
+            if (!TextValidator.Validity(Country)) {
+                result = false;
+                message += "Country is required\n";
+            }
+            if (!TextValidator.Validity(AddressLabel)) {
+                result = false;
+                message += "AddressLabel is required\n";
+            }
+            
+            return new GenericCommandResult(result, message);
+        }
     }
 }

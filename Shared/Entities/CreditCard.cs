@@ -9,6 +9,14 @@ namespace Domain.Shared.Entities
         {
         }
 
+        public CreditCard(CreditCard card)
+        {
+            CreditCardCompany = card.CreditCardCompany;
+            CardNumber = card.CardNumber;
+            Validity = card.Validity;
+            Label = card.Label;
+        }
+
         public CreditCard(string creditCardCompany, string cardNumber, DateTime validity, string label)
         {
             CreditCardCompany = creditCardCompany;

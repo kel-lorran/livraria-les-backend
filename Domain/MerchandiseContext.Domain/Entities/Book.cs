@@ -8,7 +8,7 @@ namespace Domain.MerchandiseContext
         {
         }
 
-        public Book(string author, string title, string category, string publishing, string edition, string iSBN, string codeBar, int year, int pageNumber, string synopsis, int height, int width, int length, int weight, int pricingGroup, int active)
+        public Book(string author, string title, Category category, string publishing, string edition, string iSBN, string codeBar, int year, int pageNumber, string synopsis, int height, int width, int length, int weight, PriceGroup pricingGroup, int active)
         {
             Author = author;
             Title = title;
@@ -31,7 +31,7 @@ namespace Domain.MerchandiseContext
         public int Id { get => base.Id; set => base.Id = value; }
         public string Author { get; set; }
         public string Title { get; set; }
-        public string Category { get; set; }
+        public Category Category { get; set; }
         public string Publishing { get; set; }
         public string Edition { get; set; }
         public string ISBN { get; set; }
@@ -43,7 +43,8 @@ namespace Domain.MerchandiseContext
         public int Width { get; set; }
         public int Length { get; set; }
         public int Weight { get; set; }
-        public int PricingGroup { get; set; }
+        public PriceGroup PricingGroup { get; set; }
         public int Active { get; set; }
+        public string InativationMessage { get; set; }
     }
 }

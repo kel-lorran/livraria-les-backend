@@ -5,6 +5,7 @@ using Domain.MerchandiseContext;
 using Domain.Shared.Entities;
 using Microsoft.EntityFrameworkCore;
 using Shared;
+using Shared.Utils;
 
 namespace Infra
 {
@@ -187,6 +188,28 @@ namespace Infra
             .Include(o => o.BillingAddress)
             .AsNoTracking()
             .ToList();
+        }
+
+        public List<Order> Search(string status, string date)
+        {
+            IQueryable<Order> result = _context.Orders;
+
+            if (status != null)
+                result = result.Where(o => o.Status == status);
+            if (date != null)
+                result = result.Where(o => o.Date.Equals(StringToDateTime.Convert(date, "yyyy-MM-dd")));   
+                
+            return result
+                .Include(o => o.MerchandiseList)
+                    .ThenInclude(m => m.Book)
+                .Include(o => o.ExchangedMerchandise)
+                    .ThenInclude(m => m.Book)
+                .Include(o => o.CreditCardList)
+                .Include(o => o.CouponAppliedList)
+                .Include(o => o.DeliveryAddress)
+                .Include(o => o.BillingAddress)
+                .AsNoTracking()
+                .ToList();
         }
     }
 }

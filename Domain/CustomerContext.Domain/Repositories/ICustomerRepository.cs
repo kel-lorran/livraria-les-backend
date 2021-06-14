@@ -14,5 +14,15 @@ namespace Domain.CustomerContext
         Customer GetByUserId(int id);
         Customer UpdateCustomerAddressList(Customer customer);
         Customer UpdateCustomerCreditCardList(Customer customer);
+        List<Customer> Search(
+            string name,
+            string lastName,
+            string gender,
+            string cpf,
+            string birthDate,
+            string phone,
+            string email,
+            int? active
+        );
     }
 }

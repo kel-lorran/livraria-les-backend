@@ -4,6 +4,11 @@ namespace Shared
     {
         public GenericCommandResult() {}
 
+        public GenericCommandResult(bool success)
+        {
+            Success = success;
+        }
+
         public GenericCommandResult(bool success, string message, object data)
         {
             Success = success;

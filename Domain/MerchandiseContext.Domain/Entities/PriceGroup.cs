@@ -8,6 +8,11 @@ namespace Domain.MerchandiseContext
         {
         }
 
+        public PriceGroup(int id)
+        {
+            base.Id = id;
+        }
+
         public PriceGroup(string name, float minProfit)
         {
             Name = name;

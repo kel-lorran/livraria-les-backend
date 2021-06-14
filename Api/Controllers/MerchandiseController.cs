@@ -22,8 +22,10 @@ namespace Api
         {
             var book = productRepository.GetById(command.BookId);
             command.SetBook(book);
-            var result = handler.Handle(command);
 
+            var result = (GenericCommandResult) handler.Handle(command);
+            if(!result.Success)
+                return BadRequest(result);
             return Ok(result);
         }
 
@@ -38,8 +40,10 @@ namespace Api
         {
             var book = productRepository.GetById(command.BookId);
             command.SetBook(book);
-            var result = handler.Handle(command);
-
+            
+            var result = (GenericCommandResult) handler.Handle(command);
+            if(!result.Success)
+                return BadRequest(result);
             return Ok(result);
         }
         [HttpGet]
@@ -60,6 +64,36 @@ namespace Api
         )
         {
             return repository.GetById(id);
+        }
+        [HttpGet]
+        [Route("search")]
+        [AllowAnonymous]
+        public async Task<ActionResult<List<StockMerchandise>>> Search(
+            [FromServices]IMerchandiseRepository repository,
+            [FromQuery]string author,
+            [FromQuery]string title,
+            [FromQuery]int category,
+            [FromQuery]string publishing,
+            [FromQuery]string edition,
+            [FromQuery]string isbn,
+            [FromQuery]int year,
+            [FromQuery]int pageNumber,
+            [FromQuery]string synopsis,
+            [FromQuery]string codeBar
+        )
+        {
+            return repository.Search(
+                author,
+                title,
+                category,
+                publishing,
+                edition,
+                isbn,
+                year,
+                pageNumber,
+                synopsis,
+                codeBar
+            );
         }
     }
 }

@@ -36,5 +36,27 @@ namespace Api
                 return Ok(repository.GetAll());
             return Ok(repository.GetByCustomerId(customerId));
         }
+        [HttpGet]
+        [Authorize(Roles = "manager")]
+        [Route("search")]
+        public async Task<ActionResult<List<Coupon>>> GetAll(
+            [FromServices]ICouponRepository repository,
+            [FromQuery]float value,
+            [FromQuery]string status,
+            [FromQuery]string type,
+            [FromQuery]string code,
+            [FromQuery]string date,
+            [FromQuery]int customerId
+        )
+        {
+            return Ok(repository.Search(
+                value,
+                status,
+                type,
+                code,
+                date,
+                customerId
+            ));
+        }
     }
 }
