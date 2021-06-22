@@ -68,6 +68,14 @@ namespace Infra
             return _context.Orders
             .AsNoTracking()
             .Where(OrderQueries.GetByCustomerId(id))
+            .Include(o => o.MerchandiseList)
+                .ThenInclude(m => m.Book)
+            .Include(o => o.ExchangedMerchandise)
+                .ThenInclude(m => m.Book)
+            .Include(o => o.CreditCardList)
+            .Include(o => o.CouponAppliedList)
+            .Include(o => o.DeliveryAddress)
+            .Include(o => o.BillingAddress)
             .ToList();
         }
 
